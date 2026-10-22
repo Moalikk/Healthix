@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang ="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>QuickCare - Hospital & Bed Availability</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <style>
+            .nav-link-custom {
+                font-size: 0.88rem;
+                font-weight: 500;
+                color: #222 !important;
+                transition: color 0.2s ease;
+            }
+            .nav-link-custom:hover {
+                color: #0d6efd !important;
+            }
+            .action-link {
+                font-size: 0.88rem;
+                font-weight: 600;
+                color: #222;
+                text-decoration: none;
+            }
+            .action-link:hover {
+                color: #0d6efd;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3">
+            <div class="container-fluid px-lg-5">
+            <a class="navbar-brand d-flex align-items-center me-4" href="#">
+                <img src="assets/img/QuickCareLogo.png" alt="logo" height="42" class="d-inline-block align-text-top">
+                <div style="line-height: 1.1;">
+                    <span style="font-size: 13px; letter-spacing: 1px;" class="d-block fw-bold text-dark">Healthix</span>
+                    <span style="font-size: 11px; letter-spacing: 2px;" class="text-muted fw-semibold">Medical Platform</span>
+                </div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+                <ul class="navbar-nav align-items-center gap-lg-3 mb-3 mb-lg-0 me-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#hospitals">Find Hospital</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#doctors">Doctors & Schedules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#queue-status">Check Queue</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="tel:112" class="btn btn-outline-danger btn-sm px-3 py-2 rounded-pill fw-semibold">
+                        <i class="bi bi-telephone-fill me-1"></i> Emergency 112
+                    </a>
+                    <a href="#login" class="btn btn-primary btn-sm px-3 py-2 rounded-pill fw-semibold shadow-sm">
+                        <i class="bi bi-person-fill me-1"></i> Portal Staff / Login
+                    </a>
+                </div>
+            </div>
+            </div>
+        </nav>
+
+        <section id="heroCarousel" class="carousel slide border-bottom position-relative overflow-hidden" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="4000">
+                    <img src="assets/img/Hospital 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 1">
+                </div>
+                <div class="carousel-item" data-bs-interval="4000">
+                    <img src="assets/img/Doctor Pic 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 2">
+                </div>
+                <div class="carousel-item" data-bs-interval="4000">
+                    <img src="assets/img/Hospital Room 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 3">
+                </div>
+            </div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="z-index: 2;">
+
+            <div class="container px-lg-5 py-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-4 mb-lg-0 text-white">
+                        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold" style="font-size: 0.85rem;">
+                            <i class="bi bi-shield-plus me-1"></i> Quick & Reliable Healthcare
+                        </span>
+                        <h1 class="fw-bold display-5 text-white mb-3" style="letter-spacing: -0.5px;">
+                            Find Hospital Beds & Book Care in Real-Time
+                        </h1>
+                        <p class="lead fs-6 mb-4 text-light" style="max-width: 580px;">
+                            Healthix connects you directly with government and partner health facilities. Monitor bed availability instantly and manage your medical appointments with ease.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#bed-avaibility" class="btn btn-primary px-4 py-2 fw-semibold">
+                                Request Appointment
+                            </a>
+                     </div>
+                </div>
+
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
+                    <h5 class="fw-bold mb-3 text-dark">
+                        <i class="bi bi-activity text-primary me-2"></i>Emergency Status
+                    </h5>
+                    <p class="text-muted small mb-4">
+                        Need urgent medical attention? Check current emergency room status across active facilities.
+                    </p>
+                    <ul class="list-unstyled mb-4 small">
+                        <li class="d-flex align-items-center mb-2 text-success fw-semibold">
+                            <i class="bi bi-circle-fill fs-6 me-2"></i> ER Open & Available (24/7)
+                        </li>
+                        <li class="d-flex align-items-center text-secondary">
+                            <i class="bi bi-clock-history me-2"></i> Real-time updates active
+                        </li>
+                    </ul>
+                    <div class="alert alert-light border m-0 py-2 px-3 small text-muted">
+                        <i class="bi bi-info-circle me-1 text-primary"></i> For life-threatening emergencies, call local emergency services immediately.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+        </section>
+        <script src="js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
