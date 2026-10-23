@@ -203,6 +203,148 @@
                 </div>
             </div>
         </section>
+
+        <section id="booking-section" class="py-5 bg-light border-bottom">
+            <div class="container px-lg-5 py-3">
+
+                <div class="text-center mb-5">
+                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">
+                        Online Booking
+                    </span>
+                    <h2 class="fw-bold display-6 text-dark">Book an Appointment</h2>
+                    <p class="text-muted small mx-auto" style="max-width: 500px;">
+                        Follow the simple steps below to secure your medical consultation with partner goverment facilities.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <ul class="nav nav-pills nav-justified bg-wihte p-2 rounded-4 shadow-sm border" id="bookingTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-semibold rounded-3 py-2" id="step1-tab" data-bs-toggle="tab" data-bs-target="#step1" type="button" role="tab">
+                                <span class="badge bg-primary me-2">1</span> Select Facility & Specialty
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw fw-semibold rounded-3 py-2" id="step2-tab" data-bs-toggle="tab" data-bs-target="#step2" type="button" role="tab">
+                                <span class="badge bg-secondary me-2">2</span> Doctor & Schedule
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-semibold rounded-3 py-2" id="step3-tab" data-bs-toggle="tab" data-bs-target="#step3" type="button" role="tab">
+                                <span class="badge bg-secondary me-2">3</span> Patient Details
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                        <div class="tab-content" id="bookingTabContent">
+
+                            <div class="tab-pane fade show active" id="step1" role="tabpanel">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-hospital text-primary me-2"></i>Choose Health Facility</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold">Goverment Hospital / Clinic</label>
+                                        <select class="form-select form-select-lg fs-6 rounded-3">
+                                            <option selected disabled>-- Choose Health Facility --</option>
+                                            <option>RSUP Dr. Sardjito</option>
+                                            <option>RSUD Kota Yogyakarta</option>
+                                            <option>Puskesmas Umbulharjo I</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold">Medical Specialty (poli)</label>
+                                        <select class="form-select form-select-lg fs-6 rounded-3">
+                                            <option selected disabled>-- Choose Specialty --</option>
+                                            <option>General Medicine</option>
+                                            <option>Pediatrics</option>
+                                            <option>Cardiology</option>
+                                            <option>Internal Medicine</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-end mt-4">
+                                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step2-tab')">
+                                        Next: Doctor & Schedule <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="step2" role="tabpanel">
+                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-badge text-primary me-2"></i>Select Doctor & Date</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold">Available Doctor</label>
+                                        <select class="form-select form-select-lg fs-6 rounded-3">
+                                            <option selected disabled>-- Select Doctor --</option>
+                                            <option>dr. Budi Santoso, Sp.A</option>
+                                            <option>dr. Siti Rahma, Sp.JP</option>
+                                        </select>
+                                    </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small fw-semibold">Appointment Date</label>
+                                    <input type="date" class="form-control form-control-lg fs-6 rounded-3">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step1-tab')">
+                                    <i class="bi bi-arrow-left me-1"></i> Back
+                                </button>
+                                <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step3-tab')">
+                                    Next: Patient Details <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="step3"  role="tabpanel">
+                            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-line-fill text-primary me-2"></i>Patient Information</h5>
+                            <form id="appointmentForm">
+                                <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">Full Name</label>
+                                            <input type="text" class="form-control rounded-3" placeholder="Enter full name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">National ID</label>
+                                            <input type="text" class="form-control rounded-3" placeholder="16-digit" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">Payment Type</label>
+                                            <select class="form-select rounded-3">
+                                                <option>BPJS Kesehatan</option>
+                                                <option>General / Out-of-Pocket </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step2-tab')">
+                                            <i class="bi bi-arrow-left me-1"></i> Back
+                                        </button>
+                                        <button type="submit" class="btn btn-success rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                                            Confirm & Get Queue Token <i class="bi bi-check-circle ms-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            function goToTab(tabId) {
+                const triggerEl = document.getElementById(tabId);
+                if (triggerEl) {
+                    const tab = new bootstrap.Tab(triggerEl);
+                    tab.show();
+                }
+            }
+        </script>
     </body>
 </html>
