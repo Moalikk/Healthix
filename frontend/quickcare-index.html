@@ -1,0 +1,1304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickCare | Public Hospital Services</title>
+
+<style>
+:root {
+  --dark: #073f45;
+  --teal: #087e83;
+  --lime: #c9f27b;
+  --mint: #e0f7ed;
+  --bg: #f6f8f4;
+  --muted: #71858a;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: #153238;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font: inherit; cursor: pointer; }
+
+.container {
+  width: min(1180px, 90%);
+  margin: auto;
+}
+
+/* NAVIGATION */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffffed;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #e5ece6;
+}
+
+.navbar {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 43px;
+  height: 43px;
+  background: var(--dark);
+  color: var(--lime);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.brand h2 {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  margin-top: 3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #62767a;
+}
+
+.nav-links a:hover { color: var(--teal); }
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 21px;
+  font-size: 12px;
+  font-weight: 800;
+  transition: .25s;
+}
+
+.btn-dark {
+  background: var(--dark);
+  color: white;
+}
+
+.btn-dark:hover {
+  background: var(--teal);
+  transform: translateY(-2px);
+}
+
+.btn-lime {
+  background: var(--lime);
+  color: var(--dark);
+}
+
+.btn-lime:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px #00000018;
+}
+
+.menu-toggle {
+  display: none;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+
+/* HERO SECTION */
+
+.hero {
+  background: var(--dark);
+  color: white;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+  position: relative;
+}
+
+.hero:before {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border: 1px solid #ffffff20;
+  border-radius: 50%;
+  right: -100px;
+  top: -180px;
+  box-shadow:
+    0 0 0 50px #ffffff06,
+    0 0 0 100px #ffffff05;
+}
+
+.hero-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 50px;
+  padding-top: 75px;
+  padding-bottom: 80px;
+}
+
+.eyebrow {
+  color: var(--lime);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: clamp(42px, 5.5vw, 70px);
+  line-height: 1.04;
+  letter-spacing: -3px;
+  margin: 22px 0;
+}
+
+h1 span { color: var(--lime); }
+
+.hero-description {
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #c5d9d8;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.btn-outline {
+  border: 1px solid #ffffff50;
+  color: white;
+  background: transparent;
+}
+
+.btn-outline:hover { background: #ffffff15; }
+
+.trust {
+  margin-top: 30px;
+  font-size: 11px;
+  color: #c5d9d8;
+}
+
+/* QUEUE TICKET */
+
+.visual {
+  position: relative;
+  min-height: 390px;
+  display: grid;
+  place-items: center;
+}
+
+.orb {
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  background: linear-gradient(135deg, var(--lime), #75d6b8);
+  border-radius: 50%;
+  right: 15px;
+}
+
+.ticket {
+  position: relative;
+  z-index: 2;
+  width: min(340px, 100%);
+  background: white;
+  color: #153238;
+  padding: 25px;
+  border-radius: 24px;
+  box-shadow: 0 30px 70px #001d2045;
+  transform: rotate(-2deg);
+}
+
+.ticket-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ticket-label {
+  font-size: 9px;
+  color: var(--muted);
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.demo {
+  background: var(--mint);
+  color: #16734f;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.ticket-number {
+  font-size: 54px;
+  color: var(--teal);
+  font-weight: 950;
+  letter-spacing: -3px;
+  margin-top: 18px;
+}
+
+.ticket h3 {
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.ticket p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+.ticket-line {
+  border-top: 1px solid #e5ece6;
+  padding-top: 13px;
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.ticket-line span { color: var(--muted); }
+
+.progress {
+  height: 6px;
+  background: #edf1eb;
+  border-radius: 10px;
+  margin-top: 17px;
+  overflow: hidden;
+}
+
+.progress div {
+  height: 100%;
+  width: 65%;
+  background: var(--teal);
+  border-radius: 10px;
+}
+
+.floating {
+  position: absolute;
+  z-index: 3;
+  bottom: 12px;
+  left: -10px;
+  background: white;
+  color: var(--dark);
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow: 0 15px 35px #001d2020;
+}
+
+/* QUICK FEATURES */
+
+.feature-strip {
+  background: white;
+  border-bottom: 1px solid #e5ece6;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 25px 0;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+}
+
+.feature-icon {
+  width: 43px;
+  height: 43px;
+  background: var(--mint);
+  color: var(--teal);
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  font-size: 20px;
+}
+
+.feature strong {
+  display: block;
+  font-size: 12px;
+}
+
+.feature small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* GENERAL SECTIONS */
+
+.section {
+  padding: 78px 0;
+}
+
+.section-label {
+  color: var(--teal);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: clamp(29px, 3.5vw, 43px);
+  letter-spacing: -1.7px;
+  line-height: 1.15;
+  margin-top: 13px;
+}
+
+.section-description {
+  max-width: 420px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+/* SERVICES */
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.service-card {
+  background: white;
+  border: 1px solid #e3eae5;
+  padding: 23px;
+  border-radius: 21px;
+  transition: .25s;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px #173f3510;
+  border-color: #b7d9ce;
+}
+
+.service-icon {
+  width: 49px;
+  height: 49px;
+  background: var(--mint);
+  color: var(--teal);
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+.service-card h3 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.service-card a {
+  display: inline-block;
+  margin-top: 17px;
+  color: var(--teal);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* HOW IT WORKS */
+
+.how-section { background: #eaf3ed; }
+
+.how-grid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.steps {
+  display: grid;
+  gap: 13px;
+}
+
+.step {
+  display: flex;
+  gap: 17px;
+  padding: 20px;
+  background: #ffffffc9;
+  border: 1px solid #dce8df;
+  border-radius: 17px;
+}
+
+.step-number {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: var(--dark);
+  color: var(--lime);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.step h3 { font-size: 13px; margin-bottom: 7px; }
+
+.step p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* QUEUE DEPARTMENTS */
+
+.queue-board {
+  padding: 25px;
+  background: white;
+  border: 1px solid #e3eae5;
+  border-radius: 23px;
+}
+
+.queue-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.queue-heading h3 { font-size: 17px; }
+
+.queue-heading p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 6px;
+}
+
+.queue-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.department {
+  background: #f8faf7;
+  border: 1px solid #e5ece6;
+  padding: 17px;
+  border-radius: 16px;
+}
+
+.department h4 {
+  font-size: 11px;
+  margin: 15px 0 6px;
+}
+
+.department .count {
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.department small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.department .bar {
+  height: 5px;
+  background: #e4ebe5;
+  border-radius: 9px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.department .bar div {
+  height: 100%;
+  background: var(--teal);
+  border-radius: 9px;
+}
+
+/* CALL TO ACTION */
+
+.cta {
+  padding: 0 0 75px;
+}
+
+.cta-box {
+  background: var(--lime);
+  padding: 40px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.cta-box h2 {
+  font-size: clamp(25px, 3vw, 36px);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.cta-box p {
+  color: #486052;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--dark);
+  color: white;
+  padding: 35px 0;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 11px;
+  color: #d2e4df;
+}
+
+.disclaimer {
+  margin-top: 25px;
+  font-size: 10px;
+  color: #b9d0ce;
+  line-height: 1.8;
+}
+
+/* APPOINTMENT POPUP */
+
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: #062e32bb;
+  backdrop-filter: blur(5px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  width: min(450px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 22px;
+  padding: 27px;
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.modal h2 {
+  font-size: 24px;
+  margin-bottom: 9px;
+}
+
+.modal p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.close {
+  border: 0;
+  background: #eef3ee;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+.field { margin-top: 16px; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+
+.field input, .field select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #dfe8e2;
+  border-radius: 10px;
+  background: #fbfcfa;
+  outline: none;
+}
+
+.field input:focus, .field select:focus {
+  border-color: var(--teal);
+}
+
+.notice {
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff5e7;
+  color: #815c2a;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.toast {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-size: 11px;
+  max-width: 90%;
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 900px) {
+  .nav-links { gap: 14px; }
+  .hero-content { gap: 25px; }
+  .service-grid, .queue-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .how-grid { gap: 30px; }
+}
+
+@media (max-width: 650px) {
+  .navbar { min-height: 70px; }
+  .menu-toggle { display: block; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    padding: 20px 5%;
+    background: white;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px 0; }
+
+  .hero { border-radius: 0 0 24px 24px; }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    padding-top: 50px;
+    padding-bottom: 45px;
+  }
+
+  h1 { letter-spacing: -2px; }
+
+  .visual { min-height: 350px; }
+
+  .orb {
+    width: 260px;
+    height: 260px;
+    right: 5%;
+  }
+
+  .floating { left: 0; bottom: 0; }
+
+  .features { grid-template-columns: 1fr; }
+  .feature { justify-content: flex-start; }
+
+  .section { padding: 55px 0; }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .service-grid { gap: 10px; }
+  .service-card { padding: 16px; }
+
+  .how-grid { grid-template-columns: 1fr; }
+
+  .queue-board { padding: 14px; }
+  .department { padding: 12px; }
+
+  .cta-box {
+    padding: 27px 22px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 390px) {
+  .service-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container navbar">
+    <a href="#home" class="brand">
+      <div class="logo">✚</div>
+      <div>
+        <h2>QUICKCARE</h2>
+        <small>PUBLIC HOSPITAL SERVICES</small>
+      </div>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#how">How It Works</a>
+      <a href="#queue">Queue Info</a>
+      <button class="btn btn-dark open-booking">Book a Visit ↗</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div>
+      <div class="eyebrow">PUBLIC HEALTHCARE, MADE CLEARER</div>
+
+      <h1>
+        Your health visit,<br>
+        without the <span>guesswork.</span>
+      </h1>
+
+      <p class="hero-description">
+        A simpler way to explore public hospital services, request
+        an appointment, and understand outpatient queues before
+        you arrive.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn btn-lime open-booking">
+          ▣ Request an Appointment ↗
+        </button>
+        <a class="btn btn-outline" href="#how">See How It Works ↓</a>
+      </div>
+
+      <div class="trust">
+        ✦ Designed around clearer access to public healthcare.
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="orb"></div>
+
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-label">OUTPATIENT QUEUE</span>
+          <span class="demo">DEMO DATA</span>
+        </div>
+
+        <div class="ticket-number">A-024</div>
+        <h3>Your sample queue ticket</h3>
+
+        <p>
+          Example ticket for General Medicine. Actual queue
+          information requires hospital integration.
+        </p>
+
+        <div class="ticket-line">
+          <span>♙ People ahead</span>
+          <strong>05 (sample)</strong>
+        </div>
+
+        <div class="ticket-line">
+          <span>◷ Estimated wait</span>
+          <strong>~25 min (sample)</strong>
+        </div>
+
+        <div class="progress"><div></div></div>
+
+        <p>Illustrative preview — not a live hospital queue.</p>
+      </div>
+
+      <div class="floating">
+        ✦ One place to plan your visit<br>
+        <span style="color:#71858a;font-weight:500">
+          Appointments · Services · Queue info
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK FEATURES -->
+<div class="feature-strip">
+  <div class="container features">
+    <div class="feature">
+      <div class="feature-icon">▣</div>
+      <div>
+        <strong>Appointment Requests</strong>
+        <small>Plan your hospital visit</small>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">◷</div>
+      <div>
+        <strong>Queue Information</strong>
+        <small>Understand waiting processes</small>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">♡</div>
+      <div>
+        <strong>Public Service Access</strong>
+        <small>Explore common clinic services</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <div class="section-label">Find the right service</div>
+        <h2 class="section-title">
+          Care starts with<br>knowing where to go.
+        </h2>
+      </div>
+
+      <p class="section-description">
+        Explore common outpatient departments and understand
+        where your visit begins. Actual services depend on the hospital.
+      </p>
+    </div>
+
+    <div class="service-grid">
+      <article class="service-card">
+        <div class="service-icon">✚</div>
+        <h3>General Medicine</h3>
+        <p>For common health concerns and outpatient consultations.</p>
+        <a href="#queue">Explore service ↗</a>
+      </article>
+
+      <article class="service-card">
+        <div class="service-icon">✦</div>
+        <h3>Dental Clinic</h3>
+        <p>Find information about dental consultations and oral health.</p>
+        <a href="#queue">Explore service ↗</a>
+      </article>
+
+      <article class="service-card">
+        <div class="service-icon">◉</div>
+        <h3>Eye Clinic</h3>
+        <p>Learn where to begin for vision checks and eye-care visits.</p>
+        <a href="#queue">Explore service ↗</a>
+      </article>
+
+      <article class="service-card">
+        <div class="service-icon">♡</div>
+        <h3>Maternal & Child</h3>
+        <p>Explore family health and child wellness services.</p>
+        <a href="#queue">Explore service ↗</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section" id="how">
+  <div class="container how-grid">
+    <div>
+      <div class="section-label">A clearer journey</div>
+
+      <h2 class="section-title">
+        Less confusion.<br>More confidence.
+      </h2>
+
+      <p class="section-description">
+        QuickCare is a student project concept to help citizens
+        understand the steps involved in planning a public hospital visit.
+      </p>
+
+      <br>
+
+      <button class="btn btn-dark open-booking">
+        Start an Appointment Request ↗
+      </button>
+    </div>
+
+    <div class="steps">
+      <article class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Choose a service</h3>
+          <p>Explore the department that best matches the service you need.</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Send a visit request</h3>
+          <p>Enter fictional details in this prototype to see the form in action.</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Review queue guidance</h3>
+          <p>Explore queue information and follow the hospital's official instructions.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- QUEUE INFORMATION -->
+<section class="section" id="queue">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <div class="section-label">Queue information</div>
+        <h2 class="section-title">
+          A little more clarity<br>before you arrive.
+        </h2>
+      </div>
+
+      <p class="section-description">
+        These sample values demonstrate a possible queue dashboard.
+        They are not connected to a real hospital.
+      </p>
+    </div>
+
+    <div class="queue-board">
+      <div class="queue-heading">
+        <div>
+          <h3>Outpatient Service Overview</h3>
+          <p>Example waiting counts by department</p>
+        </div>
+        <span class="demo">● ILLUSTRATIVE DATA</span>
+      </div>
+
+      <div class="queue-grid">
+        <article class="department">
+          <div class="service-icon">✚</div>
+          <h4>General Medicine</h4>
+          <div class="count">08</div>
+          <small>Example people waiting</small>
+          <div class="bar"><div style="width:78%"></div></div>
+        </article>
+
+        <article class="department">
+          <div class="service-icon">✦</div>
+          <h4>Dental Clinic</h4>
+          <div class="count">04</div>
+          <small>Example people waiting</small>
+          <div class="bar"><div style="width:45%"></div></div>
+        </article>
+
+        <article class="department">
+          <div class="service-icon">◉</div>
+          <h4>Eye Clinic</h4>
+          <div class="count">03</div>
+          <small>Example people waiting</small>
+          <div class="bar"><div style="width:32%"></div></div>
+        </article>
+
+        <article class="department">
+          <div class="service-icon">♡</div>
+          <h4>Maternal & Child</h4>
+          <div class="count">03</div>
+          <small>Example people waiting</small>
+          <div class="bar"><div style="width:35%"></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="cta">
+  <div class="container cta-box">
+    <div>
+      <h2>Make your next visit easier to plan.</h2>
+      <p>Explore the QuickCare citizen experience using our appointment demo.</p>
+    </div>
+
+    <button class="btn btn-dark open-booking">
+      Request a Visit ↗
+    </button>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <a href="#home" class="brand">
+        <div class="logo">✚</div>
+        <div>
+          <h2 style="color:white">QUICKCARE</h2>
+          <small style="color:#b9d0ce">PUBLIC HOSPITAL SERVICES</small>
+        </div>
+      </a>
+
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#how">How It Works</a>
+        <a href="#queue">Queue Info</a>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      Student project prototype. This website does not make real bookings
+      or provide live queue data. Do not submit real personal or medical
+      information. Real deployment requires an authorized hospital backend,
+      secure authentication, and appropriate privacy safeguards.
+    </p>
+  </div>
+</footer>
+
+<!-- APPOINTMENT POPUP -->
+<div class="modal-bg" id="modalBg" role="dialog"
+     aria-modal="true" aria-labelledby="modalTitle">
+
+  <div class="modal">
+    <div class="modal-top">
+      <div>
+        <div class="section-label">QUICKCARE / DEMO</div>
+        <h2 id="modalTitle">Request a Visit</h2>
+        <p>
+          Try this sample form with fictional information.
+          It will not send or save a real booking.
+        </p>
+      </div>
+
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+    </div>
+
+    <form id="bookingForm">
+      <div class="field">
+        <label for="fullName">Demo name</label>
+        <input id="fullName" maxlength="70"
+               placeholder="e.g. Alex Example" required>
+      </div>
+
+      <div class="field">
+        <label for="service">Hospital department</label>
+        <select id="service" required>
+          <option value="">Choose a department</option>
+          <option>General Medicine</option>
+          <option>Dental Clinic</option>
+          <option>Eye Clinic</option>
+          <option>Maternal & Child</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="visitDate">Preferred date</label>
+        <input id="visitDate" type="date" required>
+      </div>
+
+      <div class="field">
+        <label for="visitType">Visit type</label>
+        <select id="visitType" required>
+          <option value="">Choose visit type</option>
+          <option>First visit</option>
+          <option>Follow-up visit</option>
+          <option>Routine consultation</option>
+        </select>
+      </div>
+
+      <div class="notice">
+        Demo only: use fictional details. This form does not reserve
+        an appointment or connect to a real hospital.
+      </div>
+
+      <button class="btn btn-dark" type="submit" style="width:100%">
+        Preview Request ↗
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const modal = document.getElementById("modalBg");
+const toast = document.getElementById("toast");
+const navLinks = document.getElementById("navLinks");
+const menuToggle = document.getElementById("menuToggle");
+
+function openModal() {
+  modal.style.display = "flex";
+  document.getElementById("fullName").focus();
+}
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+document.querySelectorAll(".open-booking").forEach(button => {
+  button.addEventListener("click", openModal);
+});
+
+document.getElementById("closeModal")
+  .addEventListener("click", closeModal);
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.textContent = isOpen ? "×" : "☰";
+});
+
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+  });
+});
+
+// Prevent selecting a past date in the demo form.
+const dateInput = document.getElementById("visitDate");
+const today = new Date();
+
+dateInput.min =
+  today.getFullYear() + "-" +
+  String(today.getMonth() + 1).padStart(2, "0") + "-" +
+  String(today.getDate()).padStart(2, "0");
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer = setTimeout(() => {
+    toast.style.display = "none";
+  }, 4500);
+}
+
+document.getElementById("bookingForm")
+  .addEventListener("submit", event => {
+    event.preventDefault();
+
+    const department = document.getElementById("service").value;
+    const date = dateInput.value;
+
+    if (!event.target.reportValidity()) return;
+
+    closeModal();
+    event.target.reset();
+
+    showToast(
+      "Demo request previewed for " + department +
+      " on " + date + ". No real appointment was booked."
+    );
+  });
+</script>
+
+</body>
+</html>

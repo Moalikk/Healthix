@@ -1,350 +1,489 @@
-<!DOCTYPE html>
-<html lang ="en">
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>QuickCare - Hospital & Bed Availability</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Government Hospital Appointment System</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-        <style>
-            .nav-link-custom {
-                font-size: 0.88rem;
-                font-weight: 500;
-                color: #222 !important;
-                transition: color 0.2s ease;
-            }
-            .nav-link-custom:hover {
-                color: #0d6efd !important;
-            }
-            .action-link {
-                font-size: 0.88rem;
-                font-weight: 600;
-                color: #222;
-                text-decoration: none;
-            }
-            .action-link:hover {
-                color: #0d6efd;
-            }
-        </style>
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/owl.carousel.min.css" rel="stylesheet">
+
+        <link href="css/owl.theme.default.min.css" rel="stylesheet">
+
+        <link href="css/templatemo-medic-care.css" rel="stylesheet">
+<!--
+
+TemplateMo 566 Medic Care
+
+https://templatemo.com/tm-566-medic-care
+
+-->
     </head>
+    
+    <body id="top">
+    
+        <main>
 
-    <body>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3">
-            <div class="container-fluid px-lg-5">
-            <a class="navbar-brand d-flex align-items-center me-4" href="#">
-                <img src="assets/img/QuickCareLogo.png" alt="logo" height="42" class="d-inline-block align-text-top">
-                <div style="line-height: 1.1;">
-                    <span style="font-size: 13px; letter-spacing: 1px;" class="d-block fw-bold text-dark">Healthix</span>
-                    <span style="font-size: 11px; letter-spacing: 2px;" class="text-muted fw-semibold">Medical Platform</span>
-                </div>
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-                <ul class="navbar-nav align-items-center gap-lg-3 mb-3 mb-lg-0 me-lg-4">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-custom active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-custom" href="#hospitals">Find Hospital</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-custom" href="#doctors">Doctors & Schedules</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-custom" href="#queue-status">Check Queue</a>
-                    </li>
-                </ul>
-                <div class="d-flex align-items-center gap-2">
-                    <a href="tel:112" class="btn btn-outline-danger btn-sm px-3 py-2 rounded-pill fw-semibold">
-                        <i class="bi bi-telephone-fill me-1"></i> Emergency 112
+            <nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">
+                <div class="container">
+                    <a class="navbar-brand mx-auto d-lg-none" href="index.html">
+                        QUICKCARE
+                        <strong class="d-block">Health Specialist</strong>
                     </a>
-                    <a href="#login" class="btn btn-primary btn-sm px-3 py-2 rounded-pill fw-semibold shadow-sm">
-                        <i class="bi bi-person-fill me-1"></i> Portal Staff / Login
-                    </a>
-                </div>
-            </div>
-            </div>
-        </nav>
 
-        <section id="heroCarousel" class="carousel slide border-bottom position-relative overflow-hidden" data-bs-ride="carousel">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-            <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="4000">
-                    <img src="assets/img/Hospital 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 1">
-                </div>
-                <div class="carousel-item" data-bs-interval="4000">
-                    <img src="assets/img/Doctor Pic 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 2">
-                </div>
-                <div class="carousel-item" data-bs-interval="4000">
-                    <img src="assets/img/Hospital Room 1.jpg" class="d-block w-100 object-fit-cover" style="height: 520px; filter: brightness(0.75);" alt="Background 3">
-                </div>
-            </div>
-            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="z-index: 2;">
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#hero">Home</a>
+                            </li>
 
-            <div class="container px-lg-5 py-5">
-                <div class="row align-items-center">
-                    <div class="col-lg-7 mb-4 mb-lg-0 text-white">
-                        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold" style="font-size: 0.85rem;">
-                            <i class="bi bi-shield-plus me-1"></i> Quick & Reliable Healthcare
-                        </span>
-                        <h1 class="fw-bold display-5 text-white mb-3" style="letter-spacing: -0.5px;">
-                            Find Hospital Beds & Book Care in Real-Time
-                        </h1>
-                        <p class="lead fs-6 mb-4 text-light" style="max-width: 580px;">
-                            Healthix connects you directly with government and partner health facilities. Monitor bed availability instantly and manage your medical appointments with ease.
-                        </p>
-                        <div class="d-flex flex-wrap gap-3">
-                            <a href="#bed-avaibility" class="btn btn-primary px-4 py-2 fw-semibold">
-                                Request Appointment
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">About</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#timeline">Timeline</a>
+                            </li>
+
+                            <a class="navbar-brand d-none d-lg-block" href="index.html">
+                                QUICKCARE
+                                
                             </a>
-                     </div>
-                </div>
 
-            <div class="col-lg-5">
-                <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
-                    <h5 class="fw-bold mb-3 text-dark">
-                        <i class="bi bi-activity text-primary me-2"></i>Emergency Status
-                    </h5>
-                    <p class="text-muted small mb-4">
-                        Need urgent medical attention? Check current emergency room status across active facilities.
-                    </p>
-                    <ul class="list-unstyled mb-4 small">
-                        <li class="d-flex align-items-center mb-2 text-success fw-semibold">
-                            <i class="bi bi-circle-fill fs-6 me-2"></i> ER Open & Available (24/7)
-                        </li>
-                        <li class="d-flex align-items-center text-secondary">
-                            <i class="bi bi-clock-history me-2"></i> Real-time updates active
-                        </li>
-                    </ul>
-                    <div class="alert alert-light border m-0 py-2 px-3 small text-muted">
-                        <i class="bi bi-info-circle me-1 text-primary"></i> For life-threatening emergencies, call local emergency services immediately.
-                    </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </section>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#reviews">Testimonials</a>
+                            </li>
 
-        <section class="py-5 bg-white border-bottom">
-            <div class="container px-lg-5 py-4">
-                <div class="row align-items-start">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#booking">Booking</a>
+                            </li>
 
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h2 class="fw-bold display-6 text-dark mb-3" style="letter-spacing: -0.5px;">
-                            Why Choose Healthix
-                        </h2>
-                        <p class="text-muted small mb-4" style="max-width: 320px;">
-                            Designed to streamline government healthcare access, saving your time and minimizing hospital wait areas.
-                        </p>
-                        <a href="#about" class="btn btn=btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                            Learn more about Healthix
-                        </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="col-lg-8">
-                        <div class="row g-4">
-
-                            <div class="col-md-6">
-                                <div class="pt-3 border-top border-dark border-opacity-25">
-                                    <div class="mb-2 text-primary fs-4">
-                                        <i class="bi bi-hospital"></i>
-                                    </div>
-                                    <h5 class="fw-bold text-dark mb-2">Real-Time Bed Tracking</h5>
-                                    <p class="text-muted small mb-0">
-                                        Monitor actual hospital bed availability and emergency room status instantly before you visit.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="pt-3 border-top border-dark border-opacity-25">
-                                    <div class="mb-2 text-primary fs-4">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </div>
-                                    <h5 class="fw-bold text-dark mb-2">Easy Appointment Booking</h5>
-                                    <p class="text-muted small mb-0">
-                                        Select goverment health facilities, choose Available doctor Schedules, adn book care smotthly.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="pt-3 border-top border-dark border-opacity-25">
-                                    <div class="mb-2 text-primary fs-4">
-                                        <i class="bi bi-people-fill"></i>
-                                    </div>
-                                    <h5 class="fw-bold text-dark mb-2">Transparent Queue System</h5>
-                                    <p class="text-muted small mb-0">
-                                        Recive queue number digitally and check real-time waiting status to avoid crowded waiting rooms.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="pt-3 border-top border-dark border-opacity-25">
-                                    <div class="mb-2 text-primary fs-4">
-                                        <i class="bi bi-heart-pulse"></i>
-                                    </div>
-                                    <h5 class="fw-bold text-dark mb-2">Reliable & Efficient Care</h5>
-                                    <p class="text-muted small mb-0">
-                                        Build to bridge citizens directly with partner health institutions for a seamless administrative process.
-                                    </p>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
+            </nav>
 
-        <section id="booking-section" class="py-5 bg-light border-bottom">
-            <div class="container px-lg-5 py-3">
+            <section class="hero" id="hero">
+                <div class="container">
+                    <div class="row">
 
-                <div class="text-center mb-5">
-                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">
-                        Online Booking
-                    </span>
-                    <h2 class="fw-bold display-6 text-dark">Book an Appointment</h2>
-                    <p class="text-muted small mx-auto" style="max-width: 500px;">
-                        Follow the simple steps below to secure your medical consultation with partner goverment facilities.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row justify-content-center mb-4">
-                <div class="col-lg-10">
-                    <ul class="nav nav-pills nav-justified bg-wihte p-2 rounded-4 shadow-sm border" id="bookingTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active fw-semibold rounded-3 py-2" id="step1-tab" data-bs-toggle="tab" data-bs-target="#step1" type="button" role="tab">
-                                <span class="badge bg-primary me-2">1</span> Select Facility & Specialty
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link fw fw-semibold rounded-3 py-2" id="step2-tab" data-bs-toggle="tab" data-bs-target="#step2" type="button" role="tab">
-                                <span class="badge bg-secondary me-2">2</span> Doctor & Schedule
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-semibold rounded-3 py-2" id="step3-tab" data-bs-toggle="tab" data-bs-target="#step3" type="button" role="tab">
-                                <span class="badge bg-secondary me-2">3</span> Patient Details
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
-                        <div class="tab-content" id="bookingTabContent">
-
-                            <div class="tab-pane fade show active" id="step1" role="tabpanel">
-                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-hospital text-primary me-2"></i>Choose Health Facility</h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted small fw-semibold">Goverment Hospital / Clinic</label>
-                                        <select class="form-select form-select-lg fs-6 rounded-3">
-                                            <option selected disabled>-- Choose Health Facility --</option>
-                                            <option>RSUP Dr. Sardjito</option>
-                                            <option>RSUD Kota Yogyakarta</option>
-                                            <option>Puskesmas Umbulharjo I</option>
-                                        </select>
+                        <div class="col-12">
+                            <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="images/slider/portrait-successful-mid-adult-doctor-with-crossed-arms.jpg" class="img-fluid" alt="">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted small fw-semibold">Medical Specialty (poli)</label>
-                                        <select class="form-select form-select-lg fs-6 rounded-3">
-                                            <option selected disabled>-- Choose Specialty --</option>
-                                            <option>General Medicine</option>
-                                            <option>Pediatrics</option>
-                                            <option>Cardiology</option>
-                                            <option>Internal Medicine</option>
-                                        </select>
+
+                                    <div class="carousel-item">
+                                        <img src="images/slider/young-asian-female-dentist-white-coat-posing-clinic-equipment.jpg" class="img-fluid" alt="">
                                     </div>
-                                </div>
-                                <div class="text-end mt-4">
-                                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step2-tab')">
-                                        Next: Doctor & Schedule <i class="bi bi-arrow-right ms-1"></i>
-                                    </button>
+
+                                    <div class="carousel-item">
+                                        <img src="images/slider/doctor-s-hand-holding-stethoscope-closeup.jpg" class="img-fluid" alt="">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="step2" role="tabpanel">
-                                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-badge text-primary me-2"></i>Select Doctor & Date</h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted small fw-semibold">Available Doctor</label>
-                                        <select class="form-select form-select-lg fs-6 rounded-3">
-                                            <option selected disabled>-- Select Doctor --</option>
-                                            <option>dr. Budi Santoso, Sp.A</option>
-                                            <option>dr. Siti Rahma, Sp.JP</option>
-                                        </select>
+                            <div class="heroText d-flex flex-column justify-content-center">
+
+                                <h1 class="mt-auto mb-2">
+                                    Better
+                                    <div class="animated-info">
+                                        <span class="animated-item">health</span>
+                                        <span class="animated-item">days</span>
+                                        <span class="animated-item">lives</span>
                                     </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-semibold">Appointment Date</label>
-                                    <input type="date" class="form-control form-control-lg fs-6 rounded-3">
+                                </h1>
+
+                                <p class="mb-4">Medic Care is a Bootstrap 5 Template provided by TemplateMo website. Credits go to FreePik and RawPixel for images used in this template.</p>
+
+                                <div class="heroLinks d-flex flex-wrap align-items-center">
+                                    <a class="custom-link me-4" href="#about" data-hover="Learn More">Learn More</a>
+
+                                    <p class="contact-phone mb-0"><i class="bi-phone"></i> 010-020-0340</p>
                                 </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-4">
-                                <button class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step1-tab')">
-                                    <i class="bi bi-arrow-left me-1"></i> Back
-                                </button>
-                                <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step3-tab')">
-                                    Next: Patient Details <i class="bi bi-arrow-right ms-1"></i>
-                                </button>
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="step3"  role="tabpanel">
-                            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-line-fill text-primary me-2"></i>Patient Information</h5>
-                            <form id="appointmentForm">
-                                <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted small fw-semibold">Full Name</label>
-                                            <input type="text" class="form-control rounded-3" placeholder="Enter full name" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted small fw-semibold">National ID</label>
-                                            <input type="text" class="form-control rounded-3" placeholder="16-digit" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label text-muted small fw-semibold">Payment Type</label>
-                                            <select class="form-select rounded-3">
-                                                <option>BPJS Kesehatan</option>
-                                                <option>General / Out-of-Pocket </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-4">
-                                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" onclick="goToTab('step2-tab')">
-                                            <i class="bi bi-arrow-left me-1"></i> Back
-                                        </button>
-                                        <button type="submit" class="btn btn-success rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                                            Confirm & Get Queue Token <i class="bi bi-check-circle ms-1"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section class="section-padding" id="about">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <h2 class="mb-lg-3 mb-3">Meet Dr. Carson</h2>
+
+                            <p>Protect yourself and others by wearing masks and washing hands frequently. Outdoor is safer than indoor for gatherings or holding events. People who get sick with Coronavirus disease (COVID-19) will experience mild to moderate symptoms and recover without special treatments.</p>
+
+                            <p>You can feel free to use this CSS template for your medical profession or health care related websites. You can <a rel="nofollow" href="http://paypal.me/templatemo" target="_blank">support us a little</a> via PayPal if this template is good and useful for your work.</p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-5 col-12 mx-auto">
+                            <div class="featured-circle bg-white shadow-lg d-flex justify-content-center align-items-center">
+                                <p class="featured-text"><span class="featured-number">12</span> Years<br> of Experiences</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-6 ps-0">
+                            <img src="images/gallery/medium-shot-man-getting-vaccine.jpg" class="img-fluid galleryImage" alt="get a vaccine" title="get a vaccine for yourself">
+                        </div>
+
+                        <div class="col-lg-6 col-6 pe-0">
+                            <img src="images/gallery/female-doctor-with-presenting-hand-gesture.jpg" class="img-fluid galleryImage" alt="wear a mask" title="wear a mask to protect yourself">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding pb-0" id="timeline">
+                <div class="container">
+                    <div class="row">
+
+                        <h2 class="text-center mb-lg-5 mb-4">Our Timeline</h2>
+                        
+                        <div class="timeline">
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Get the vaccine</h3>
+
+                                    <p>Donec facilisis urna dui, a dignissim mauris pretium a. Quisque quis libero fermentum, tempus felis eu, consequat nibh.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-patch-check-fill timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>2021-07-31 Saturday</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes my-lg-5 my-4">
+                                <div class="col-9 col-md-5 ms-md-4 ms-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Consulting your health</h3>
+
+                                    <p>You are fully permitted to use this template for your commercial or personal website. You are not permitted to redistribute the template ZIP file for a download purpose on any other <a href="https://www.google.com/search?q=free+css" target="_blank">Free CSS collection</a> website.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-book timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 pe-md-3 pe-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>2021-07-15 Thursday</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Certified Nurses</h3>
+
+                                    <p>Phasellus eleifend, urna interdum congue viverra, arcu neque ultrices ligula, id pulvinar nisi nibh et lacus. Vivamus gravida, ipsum non euismod tincidunt, sapien elit fermentum mi, quis iaculis enim ligula at arcu.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-file-medical timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>2021-06-28 Monday</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes my-lg-5 my-4">
+                                <div class="col-9 col-md-5 ms-md-4 ms-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Covid-19 Hospitals</h3>
+
+                                    <p class="mb-0 pb-0">Fusce vestibulum euismod nulla sed ultrices. Praesent rutrum nulla vel sapien euismod, quis tempus dui placerat.</p>
+                                    
+                                    <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-globe timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 pe-md-3 pe-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>2021-05-30 Sunday</time>
+                                </div>
+                            </div>
+
+                            <div class="row g-0 justify-content-end justify-content-md-around align-items-start timeline-nodes">
+                                <div class="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
+                                    <h3 class=" text-light">Freelance Nursing</h3>
+
+                                    <p>If you need a working contact form that submits email to your inbox, please <a rel="nofollow" href="https://templatemo.com/contact" target="_parent">visit our contact page</a> for more information.</p>
+                                </div>
+
+                                <div class="col-3 col-sm-1 order-2 timeline-icons text-md-center">
+                                    <i class="bi-person timeline-icon"></i>
+                                </div>
+
+                                <div class="col-9 col-md-5 ps-md-3 ps-lg-0 order-1 order-md-3 py-4 timeline-date">
+                                    <time>2021-05-18 Tuesday</time>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding pb-0" id="reviews">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <h2 class="text-center mb-lg-5 mb-4">Our Patients</h2>
+
+                            <div class="owl-carousel reviews-carousel">
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Best Health Care</strong></p>
+
+                                    <p class="reviews-text w-100">Phasellus ligula ante, tempus ac imperdiet ut, mattis ac nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+                                    <img src="images/reviews/beautiful-woman-face-portrait-brown-background.jpeg" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Marie</strong>
+
+                                        <span class="text-muted">Patient</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Doctor cares everyone!</strong></p>
+
+                                    <p class="reviews-text w-100">Donec in elementum orci, nec posuere ligula. Quisque vulputate diam et ullamcorper ullamcorper. Pellentesque vestibulum neque at leo fermentum mattis.</p>
+
+                                    <img src="images/reviews/senior-man-wearing-white-face-mask-covid-19-campaign-with-design-space.jpeg" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Ben Walker</strong>
+
+                                        <span class="text-muted">Recovered</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Great services!</strong></p>
+
+                                    <p class="reviews-text w-100">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec sit amet velit vitae purus aliquam efficitur.</p>
+
+                                    <img src="images/reviews/portrait-british-woman.jpeg" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Laura Zono</strong>
+
+                                        <span class="text-muted">New Patient</span>
+                                    </figcaption>
+                                </figure>
+
+                                <figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+                                    <div class="reviews-stars">
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star-fill"></i>
+                                        <i class="bi-star"></i>
+                                        <i class="bi-star"></i>
+                                    </div>
+
+                                    <p class="text-primary d-block mt-2 mb-0 w-100"><strong>Best Advices</strong></p>
+
+                                    <p class="reviews-text w-100">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+                                    <img src="images/reviews/woman-wearing-mask-face-closeup-covid-19-green-background.jpeg" class="img-fluid reviews-image" alt="">
+
+                                    <figcaption class="ms-4">
+                                        <strong>Rosey</strong>
+
+                                        <span class="text-muted">Almost Recovered</span>
+                                    </figcaption>
+                                </figure>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding" id="booking">
+                <div class="container">
+                    <div class="row">
+                    
+                        <div class="col-lg-8 col-12 mx-auto">
+                            <div class="booking-form">
+                                
+                                <h2 class="text-center mb-lg-3 mb-2">Book an appointment</h2>
+                            
+                                <form role="form" action="#booking" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12">
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Full name" required>
+                                        </div>
+
+                                        <div class="col-lg-6 col-12">
+                                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required>
+                                        </div>
+
+                                        <div class="col-lg-6 col-12">
+                                            <input type="telephone" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control" placeholder="Phone: 123-456-7890">
+                                        </div>
+
+                                        <div class="col-lg-6 col-12">
+                                            <input type="date" name="date" id="date" value="" class="form-control">
+                                            
+                                        </div>
+
+                                        <div class="col-12">
+                                            <textarea class="form-control" rows="5" id="message" name="message" placeholder="Additional Message"></textarea>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-4 col-6 mx-auto">
+                                            <button type="submit" class="form-control" id="submit-button">Book Now</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="site-footer section-padding" id="contact">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-5 me-auto col-12">
+                        <h5 class="mb-lg-4 mb-3">Opening Hours</h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex">
+                                Sunday : Closed
+                            </li>
+
+                            <li class="list-group-item d-flex">
+                                Monday, Tuesday - Firday
+                                <span>8:00 AM - 3:30 PM</span>
+                            </li>
+
+                            <li class="list-group-item d-flex">
+                                Saturday
+                                <span>10:30 AM - 5:30 PM</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 col-12 my-4 my-lg-0">
+                        <h5 class="mb-lg-4 mb-3">Our Clinic</h5>
+
+                        <p><a href="mailto:hello@company.co">hello@company.co</a><p>
+
+                        <p>123 Digital Art Street, San Diego, CA 92123</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-12 ms-auto">
+                        <h5 class="mb-lg-4 mb-2">Socials</h5>
+
+                        <ul class="social-icon">
+                            <li><a href="#" class="social-icon-link bi-facebook"></a></li>
+
+                            <li><a href="#" class="social-icon-link bi-twitter"></a></li>
+
+                            <li><a href="#" class="social-icon-link bi-instagram"></a></li>
+
+                            <li><a href="#" class="social-icon-link bi-youtube"></a></li>
+                        </ul>
+
+                        <div>
+                            <p class="copyright-text">Copyright © Medic Care 2021 
+                            <br><br>Design: <a href="https://templatemo.com" target="_parent">TemplateMo</a></p>
+                            <p class="copyright-text">Distributed By: <a href="https://themewagon.com" target="_parent">Themewagon</a></p>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+            </section>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
-        <script>
-            function goToTab(tabId) {
-                const triggerEl = document.getElementById(tabId);
-                if (triggerEl) {
-                    const tab = new bootstrap.Tab(triggerEl);
-                    tab.show();
-                }
-            }
-        </script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/scrollspy.min.js"></script>
+        <script src="js/custom.js"></script>
+<!--
+
+TemplateMo 566 Medic Care
+
+https://templatemo.com/tm-566-medic-care
+
+-->
     </body>
 </html>

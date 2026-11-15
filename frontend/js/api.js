@@ -1,0 +1,23 @@
+
+const API_BASE = "http://127.0.0.1:8000/api";
+
+async function createAppointment(appointmentData) {
+  const response = await fetch(`${API_BASE}/appointments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(appointmentData)
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.message || "Unable to create appointment"
+    );
+  }
+
+  return result;
+}
