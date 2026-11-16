@@ -40,3 +40,23 @@ Response 200:
   ]
 }
 ```
+
+## GET /doctors
+Returns active doctors with their department name. Optional query: `department_id`.
+
+Example: /doctors?department_id=2
+
+Response 200:
+```json
+{
+  "data": [
+    {
+      "id": 2,
+      "name": "Dr. Siti Rahma",
+      "specialization": "Dermatologist",
+      "photo_url": null,
+      "department_name": "Dermatology"
+    }
+  ]
+}
+```  
