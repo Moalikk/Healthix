@@ -19,3 +19,24 @@ Response 200:
   ]
 }
 ```
+
+## GET /hospitals
+Returns active hospitals. Optional query: `city` (partial match).
+
+Example: /hospitals?city=Jakarta
+
+Response 200:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "General Hospital Jakarta",
+      "type": "general_hospital",
+      "address": "Jl. Contoh No. 1",
+      "city": "Jakarta Pusat",
+      "image_url": null
+    }
+  ]
+}
+```
