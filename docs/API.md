@@ -59,4 +59,30 @@ Response 200:
     }
   ]
 }
-```  
+``` 
+## POST /register
+Membuat akun citizen baru dan langsung mengembalikan token.
+
+Body:
+```json
+{ "name": "Test Citizen", "email": "test@example.com", "password": "password123" }
+```
+
+Response 201:
+```json
+{
+  "user": { "id": 1, "name": "Test Citizen", "email": "test@example.com", "role": "citizen" },
+  "token": "1|xxxxxxxx"
+}
+```
+
+## POST /login
+Body: `email`, `password`. Response 200 sama seperti register.
+Jika salah: 401 `{ "message": "Invalid email or password" }`
+
+## GET /me
+Butuh header `Authorization: Bearer <token>`. Mengembalikan data user yang sedang login.
+Tanpa token: 401.
+
+## POST /logout
+Butuh Bearer token. Token dihapus, sehingga tidak bisa dipakai lagi.
