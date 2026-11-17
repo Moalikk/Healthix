@@ -1,271 +1,714 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="QUICKCARE citizen portal dashboard demo for government hospital appointments and queues.">
-<title>Citizen Portal | QUICKCARE</title>
-<style>
-:root{--teal:#087f8c;--dark:#07545d;--mint:#e9f8f5;--ink:#17323b;--muted:#71838a;--line:#e3ecee;--bg:#f5f8fa;--green:#e6f7ee;--amber:#fff4df;--blue:#eaf2ff;--shadow:0 12px 34px rgba(18,55,65,.06)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}a{color:inherit;text-decoration:none}
-.app{min-height:100vh;display:grid;grid-template-columns:245px minmax(0,1fr)}.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:28px}.brand{display:flex;align-items:center;gap:11px;padding:0 10px}.brand-icon{width:42px;height:42px;border-radius:14px;background:var(--teal);color:white;display:grid;place-items:center;font-size:22px;font-weight:800}.brand-name{font-weight:850;font-size:20px;color:var(--dark)}.brand-sub{display:block;font-size:9px;letter-spacing:1.1px;font-weight:800;color:var(--muted);margin-top:3px}.nav-label{font-size:10px;letter-spacing:1.4px;color:#9aa8ad;font-weight:800;padding:0 12px;margin-bottom:8px}.nav{display:grid;gap:5px}.nav a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;color:#63777e;font-size:13px;font-weight:650}.nav a:hover,.nav a.active{background:var(--mint);color:var(--dark)}.nav-icon{width:22px;text-align:center;font-size:17px}.side-help{margin-top:auto;border-radius:18px;background:#f0f9f8;padding:17px}.side-help strong{font-size:13px;display:block;margin-bottom:7px}.side-help p{font-size:12px;line-height:1.6;color:var(--muted);margin:0 0 13px}.side-help a{font-size:12px;font-weight:800;color:var(--teal)}
-.main{min-width:0}.topbar{height:78px;background:#fffffff0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 34px;position:sticky;top:0;z-index:5}.crumb{font-size:12px;color:var(--muted)}.crumb strong{color:var(--ink)}.top-actions{display:flex;align-items:center;gap:12px}.icon-btn{width:39px;height:39px;border:1px solid var(--line);background:#fff;border-radius:12px;display:grid;place-items:center;cursor:pointer;color:#61757c}.avatar{width:38px;height:38px;border-radius:13px;background:#d8f1ed;color:var(--dark);display:grid;place-items:center;font-weight:850;font-size:12px}.profile{display:flex;align-items:center;gap:10px}.profile-name{font-size:12px;font-weight:800}.profile-role{font-size:10px;color:var(--muted);margin-top:3px}.content{max-width:1450px;margin:auto;padding:30px 34px 44px}.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:25px}.eyebrow{font-size:10px;letter-spacing:1.5px;color:var(--teal);font-weight:850;text-transform:uppercase;margin-bottom:10px}h1{font-size:clamp(25px,3vw,34px);letter-spacing:-1.1px;margin:0 0 9px;line-height:1.2}.welcome p{color:var(--muted);font-size:13px;margin:0;line-height:1.7}.date-chip{background:#fff;border:1px solid var(--line);padding:11px 14px;border-radius:12px;font-size:12px;font-weight:700;white-space:nowrap;color:#63777e}
-.banner{background:linear-gradient(115deg,#07545d,#087f8c 68%,#2aa99e);color:white;border-radius:22px;padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden;position:relative;margin-bottom:23px;box-shadow:0 14px 30px #087f8c24}.banner-copy{position:relative;z-index:1;max-width:650px}.banner-tag{display:inline-block;background:#ffffff26;border:1px solid #ffffff40;padding:6px 9px;border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.5px;margin-bottom:12px}.banner h2{font-size:22px;letter-spacing:-.5px;margin:0 0 8px}.banner p{color:#d8f2f0;font-size:12px;line-height:1.7;margin:0 0 17px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:11px 15px;font-size:12px;font-weight:800;cursor:pointer;transition:.18s}.btn-white{background:#fff;color:var(--dark)}.btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 15px #064a5260}.btn-primary{background:var(--teal);color:#fff}.banner-art{min-width:135px;width:155px;height:125px;border-radius:23px;background:#ffffff20;border:1px solid #ffffff40;display:grid;place-items:center;font-size:62px;transform:rotate(3deg)}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:27px 0 14px}.section-title h2{font-size:16px;margin:0;font-weight:850}.section-title span{font-size:11px;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:19px;min-width:0}.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:17px}.stat-icon{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;font-size:18px}.ic-teal{background:var(--mint);color:var(--teal)}.ic-blue{background:var(--blue);color:#315db5}.ic-amber{background:var(--amber);color:#95620a}.ic-green{background:var(--green);color:#197348}.stat-label{font-size:11px;color:var(--muted);font-weight:650}.stat-number{font-size:27px;letter-spacing:-.8px;font-weight:850;margin-top:6px}.stat-foot{font-size:10px;color:var(--muted);margin-top:6px}
-.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);gap:17px;margin-top:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.panel-head h3{font-size:14px;margin:0;font-weight:850}.panel-head a{font-size:11px;color:var(--teal);font-weight:800}.appointment{display:flex;align-items:center;gap:13px;padding:14px 0;border-top:1px solid #edf1f2}.appointment:first-of-type{border-top:0;padding-top:0}.datebox{width:50px;height:55px;border-radius:13px;background:#f0f8f8;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}.datebox strong{font-size:19px;color:var(--dark);line-height:1.1}.datebox span{font-size:9px;font-weight:850;color:var(--teal);letter-spacing:.8px}.appt-main{flex:1;min-width:0}.appt-main strong{font-size:12px;display:block;margin-bottom:5px}.appt-main span{font-size:10px;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border-radius:8px;font-size:9px;font-weight:850;white-space:nowrap}.pill-confirmed{background:var(--green);color:#197348}.pill-pending{background:var(--amber);color:#95620a}.pill-demo{background:var(--blue);color:#315db5}.queue-panel{background:#fbfefe}.queue-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.queue-number{font-size:35px;letter-spacing:-1px;font-weight:900;color:var(--teal);margin:8px 0}.queue-label{font-size:11px;color:var(--muted)}.queue-progress{height:7px;border-radius:99px;background:#e7f0f0;overflow:hidden;margin:16px 0 9px}.queue-progress span{display:block;width:58%;height:100%;background:linear-gradient(90deg,#087f8c,#45c5b3);border-radius:99px}.queue-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.queue-detail{padding:12px;border-radius:12px;background:#f0f8f8}.queue-detail span{font-size:10px;color:var(--muted);display:block;margin-bottom:5px}.queue-detail strong{font-size:14px}.queue-note{font-size:10px;line-height:1.6;color:var(--muted);margin:15px 0 0}
-.quick-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.action{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:left;cursor:pointer;transition:.18s;color:var(--ink)}.action:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#b8dddd}.action-icon{width:40px;height:40px;border-radius:13px;background:var(--mint);color:var(--teal);display:grid;place-items:center;font-size:18px;margin-bottom:13px}.action strong{font-size:12px;display:block;margin-bottom:5px}.action span:last-child{font-size:10px;color:var(--muted);line-height:1.5;display:block}.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:18px}.notice{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid #edf1f2}.notice:first-of-type{border-top:0;padding-top:0}.notice-icon{width:34px;height:34px;flex-shrink:0;display:grid;place-items:center;border-radius:11px;background:var(--mint);color:var(--teal)}.notice strong{font-size:11px;display:block;margin:1px 0 5px}.notice p{font-size:10px;color:var(--muted);line-height:1.6;margin:0}.modal-note{font-size:10px;color:var(--muted);line-height:1.6}.footer{font-size:10px;color:#8b9ba0;text-align:center;padding:28px 0 0;line-height:1.7}.mobile-menu{display:none}.toast{position:fixed;right:24px;bottom:24px;background:#143c44;color:#fff;padding:14px 18px;border-radius:13px;box-shadow:var(--shadow);font-size:12px;z-index:20;display:none;max-width:330px}.modal-backdrop{position:fixed;inset:0;background:#102f3570;display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.modal{background:white;border-radius:20px;width:min(100%,500px);padding:25px;box-shadow:0 20px 80px #102f3533}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h3{margin:0;font-size:18px}.close-btn{border:0;background:#f0f5f5;width:34px;height:34px;border-radius:10px;cursor:pointer}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:13px}.field label{font-size:11px;font-weight:800;display:block;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);outline-color:var(--teal);font-size:12px}.field textarea{min-height:75px;resize:vertical}
-
-/* QuickCare expo feature additions */
-.feature-hub{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:17px;margin-top:18px}
-.ai-chat{display:flex;flex-direction:column;min-height:350px}
-.chat-intro{font-size:11px;color:var(--muted);line-height:1.6;margin:-5px 0 12px}
-.chat-messages{display:flex;flex-direction:column;gap:10px;min-height:130px;max-height:250px;overflow:auto;padding:12px;background:#f7fbfb;border:1px solid var(--line);border-radius:14px}
-.chat-bubble{max-width:92%;padding:11px 12px;border-radius:13px;font-size:12px;line-height:1.6;white-space:pre-wrap}
-.chat-bubble.bot{align-self:flex-start;background:#e9f8f5;border:1px solid #d5efea}
-.chat-bubble.user{align-self:flex-end;background:var(--teal);color:white}
-.chat-controls{display:grid;grid-template-columns:130px minmax(0,1fr);gap:8px;margin-top:10px}
-.chat-controls select,.chat-controls input,.translator-input{min-width:0;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);font-size:12px}
-.chat-send{margin-top:8px;align-self:flex-end}
-.safety-note{font-size:10px;line-height:1.6;color:#8a650e;background:#fff8e8;padding:10px 12px;border-radius:10px;margin:10px 0 0}
-.translator-card{display:flex;flex-direction:column;gap:11px}
-.translator-card p{font-size:11px;line-height:1.6;color:var(--muted);margin:0}
-.translator-output{background:#f0f8f8;border:1px solid #dceeed;border-radius:12px;padding:13px;min-height:86px;font-size:12px;line-height:1.7;white-space:pre-wrap}
-.translation-examples{display:flex;flex-wrap:wrap;gap:7px}
-.term-chip{border:1px solid var(--line);background:white;color:var(--dark);border-radius:99px;padding:7px 10px;font-size:10px;font-weight:750;cursor:pointer}
-.term-chip:hover{border-color:var(--teal);background:var(--mint)}
-.confirmation-box{display:none;margin-top:12px;padding:14px;border-radius:13px;background:var(--green);color:#176541;font-size:12px;line-height:1.7}
-.notification-list{display:grid;gap:9px}
-.notification-item{display:flex;gap:10px;padding:11px;border-radius:12px;background:#f7fbfb;border:1px solid var(--line)}
-.notification-item .notice-icon{flex-shrink:0}
-.notification-item strong{display:block;font-size:11px;margin:1px 0 4px}
-.notification-item p{margin:0;font-size:10px;line-height:1.6;color:var(--muted)}
-@media(max-width:900px){.feature-hub{grid-template-columns:1fr}}
-@media(max-width:520px){.chat-controls{grid-template-columns:1fr}.chat-bubble{max-width:100%}}
-
-
-.priority-panel{margin-top:18px;border-color:#f1d6d3}.priority-banner{display:flex;align-items:flex-start;gap:12px;padding:13px;border-radius:13px;background:#fff5f4;border:1px solid #f4d8d5;margin-bottom:14px}.priority-symbol{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#fde5e2;color:#b42318;font-size:19px;flex-shrink:0}.priority-banner strong{display:block;font-size:12px;margin:1px 0 5px;color:#8f241d}.priority-banner p{margin:0;color:#765d5b;font-size:10px;line-height:1.6}.review-list{display:grid;gap:9px}.review-row{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}.review-row.needs-review{border-color:#efc1bc;background:#fffafa}.review-copy{flex:1;min-width:0}.review-copy strong{font-size:11px;display:block;margin-bottom:4px}.review-copy span{font-size:10px;color:var(--muted);line-height:1.5}.review-badge{font-size:9px;font-weight:850;border-radius:7px;padding:6px 8px;background:#fde5e2;color:#a52a21;white-space:nowrap}.review-badge.routine{background:#fff4df;color:#95620a}.review-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}.review-footnote{font-size:10px;line-height:1.6;color:var(--muted);margin:12px 0 0}
-@media(max-width:1150px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}}
-@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{height:68px;padding:0 17px}.mobile-menu{display:grid}.profile-info{display:none}.content{padding:23px 16px 30px}.welcome{display:block}.date-chip{display:inline-block;margin-top:15px}.banner{padding:22px;align-items:flex-start}.banner-art{display:none}.banner h2{font-size:20px}.stats{gap:10px}.stat{padding:14px}.stat-number{font-size:24px}.dashboard-grid,.bottom-grid{grid-template-columns:1fr}.quick-actions{gap:10px}.action{padding:13px}.appointment{gap:9px}.pill{font-size:8px}}
-@media(max-width:390px){.stats,.quick-actions{grid-template-columns:1fr 1fr}.appointment{flex-wrap:wrap}.pill{margin-left:59px}.form-row{grid-template-columns:1fr}}
-
-.simple-mode body{font-size:1.12em}
-body.simple-mode .content{max-width:1600px}
-body.simple-mode p,body.simple-mode .nav a,body.simple-mode label,body.simple-mode button{font-size:1.08em!important}
-body.simple-mode .panel,body.simple-mode .stat,body.simple-mode .action{border-width:2px}
-.extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:18px}
-.checklist{display:grid;gap:11px}.checkline{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:12px;background:#fbfdfd;font-size:12px;line-height:1.5}.checkline input{margin-top:3px;accent-color:var(--teal)}
-.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.guide-item{border:1px solid var(--line);background:#fff;border-radius:13px;padding:13px}
-.guide-item strong{display:block;font-size:12px;margin-bottom:5px}.guide-item p{font-size:11px;line-height:1.6;color:var(--muted);margin:0}
-.slot-row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:12px}
-.small-btn{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:var(--dark);font-size:10px;font-weight:800;cursor:pointer}
-@media(max-width:900px){.extra-grid{grid-template-columns:1fr}}
-@media(max-width:520px){.guide-grid{grid-template-columns:1fr}}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="QUICKCARE citizen portal dashboard demo for government hospital appointments and queues.">
+    <title>Citizen Portal | QUICKCARE</title>
+    <!-- Link to Modern Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-<a class="brand" href="#dashboard"><span class="brand-icon">✚</span><span><span class="brand-name">QUICKCARE</span><span class="brand-sub">CITIZEN PORTAL</span></span></a>
-<div><div class="nav-label">MAIN MENU</div><nav class="nav" aria-label="Main navigation">
-<a class="active" href="#dashboard"><span class="nav-icon">▦</span>Dashboard</a><a href="#appointments"><span class="nav-icon">▣</span>My Appointments</a><a href="#queue-status"><span class="nav-icon">☷</span>Queue Status</a><a href="#quick-actions" data-action="book"><span class="nav-icon">＋</span>Book a Visit</a><a href="#citizen-tools"><span class="nav-icon">✦</span>Citizen AI Tools</a><a href="#visit-readiness"><span class="nav-icon">✓</span>Visit readiness</a><a href="#notifications"><span class="nav-icon">♧</span>Notifications</a><a href="#announcements"><span class="nav-icon">◉</span>Announcements</a>
-</nav></div>
-<div><div class="nav-label">ACCOUNT</div><nav class="nav"><a href="#profile" data-toast="Profile settings are a future feature in this student demo."><span class="nav-icon">♙</span>My Profile</a><a href="#help" data-toast="For a real service, contact the official hospital help desk."><span class="nav-icon">ⓘ</span>Help & Support</a></nav></div>
-<div class="side-help"><strong>Need a little help?</strong><p>Learn what to prepare before visiting a public hospital.</p><a href="#help" data-toast="Help guide: choose a department, request a visit, and wait for official confirmation.">Open help guide →</a></div>
-</aside>
-<main class="main" id="dashboard">
-<header class="topbar"><div style="display:flex;align-items:center;gap:12px"><button class="icon-btn mobile-menu" id="mobileMenu" aria-label="Show navigation">☰</button><div class="crumb">Citizen Portal <span style="padding:0 6px;color:#bdc9cc">/</span> <strong>Dashboard</strong></div></div><div class="top-actions"><button class="icon-btn" id="simpleModeButton" aria-label="Toggle simple mode" title="Simple mode">Aa</button><button class="icon-btn" id="notificationButton" aria-label="Notifications" title="Notifications">♧</button><div class="profile"><div class="avatar">CD</div><div class="profile-info"><div class="profile-name">Citizen Demo</div><div class="profile-role">Public service user</div></div></div></div></header>
-<div class="content">
-<section class="welcome"><div><div class="eyebrow">Your health, your time</div><h1>Good day, Citizen 👋</h1><p>Welcome to your public hospital dashboard. Plan your visit and keep track of appointment information in one place.</p></div><div class="date-chip" id="todayDate">📅 Loading date…</div></section>
-<section class="banner"><div class="banner-copy"><span class="banner-tag">✦ A simpler hospital journey</span><h2>Less waiting-room worry.<br>More clarity before you go.</h2><p>Request an appointment, review your visit details, and explore how queue updates could help you plan ahead.</p><button class="btn btn-white" data-action="book">＋ Request an Appointment</button></div><div class="banner-art" aria-hidden="true">✚</div></section>
-<section aria-label="Dashboard overview"><div class="section-title"><h2>Your overview</h2><span>Example dashboard data</span></div><div class="stats">
-<article class="stat"><div class="stat-top"><span class="stat-label">Appointments</span><span class="stat-icon ic-teal">▣</span></div><div class="stat-number" id="appointmentCount">2</div><div class="stat-foot">Sample records shown below</div></article>
-<article class="stat"><div class="stat-top"><span class="stat-label">Pending requests</span><span class="stat-icon ic-amber">◷</span></div><div class="stat-number" id="pendingCount">1</div><div class="stat-foot">Awaiting sample confirmation</div></article>
-<article class="stat"><div class="stat-top"><span class="stat-label">Queue updates</span><span class="stat-icon ic-blue">☷</span></div><div class="stat-number">Demo</div><div class="stat-foot">Not connected to a hospital</div></article>
-<article class="stat"><div class="stat-top"><span class="stat-label">Citizen profile</span><span class="stat-icon ic-green">♙</span></div><div class="stat-number">Guest</div><div class="stat-foot">No account or personal data stored</div></article>
-</div></section>
-<div class="dashboard-grid">
-<section class="panel" id="appointments"><div class="panel-head"><h3>My appointments</h3><a href="#appointments" data-toast="This prototype shows sample appointments only.">View all →</a></div>
-<div id="appointmentList"><article class="appointment"><div class="datebox"><strong>24</strong><span>OCT</span></div><div class="appt-main"><strong>General Medicine</strong><span>09:30 AM · Sample Public Hospital</span></div><span class="pill pill-confirmed">● Sample</span></article>
-<article class="appointment"><div class="datebox"><strong>28</strong><span>OCT</span></div><div class="appt-main"><strong>Dental Clinic</strong><span>11:00 AM · Sample Public Hospital</span></div><span class="pill pill-pending">◷ Pending demo</span></article></div><p class="modal-note" style="margin:12px 0 0">These are fictional examples, not real bookings.</p></section>
-<section class="panel queue-panel" id="queue-status"><div class="panel-head"><h3>Queue status preview</h3><span class="pill pill-demo">DEMO DATA</span></div><div class="queue-top"><div><div class="queue-label">Example queue number</div><div class="queue-number">A-024</div><div class="queue-label">Outpatient service · Sample only</div></div><span class="stat-icon ic-teal" style="width:48px;height:48px;font-size:23px">☷</span></div><div class="queue-progress"><span></span></div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)"><span>Illustrative progress</span><span>Not live</span></div><div class="queue-details"><div class="queue-detail"><span>People ahead</span><strong>5 (sample)</strong></div><div class="queue-detail"><span>Estimated wait</span><strong>~25 min</strong></div></div><p class="queue-note">Real queue estimates require an authorized hospital system. Do not rely on sample values for a real visit.</p></section>
-</div>
-<section class="panel priority-panel" id="priority-review">
-<div class="panel-head"><h3>⚑ Priority review queue</h3><span class="pill pill-demo">STAFF WORKFLOW DEMO</span></div>
-<div class="priority-banner"><span class="priority-symbol">!</span><div><strong>Urgent concerns need human review</strong><p>This demo places a request marked for staff review at the top of this review list. It does not diagnose patients or decide who receives treatment first. Emergencies should not wait for online booking.</p></div></div>
-<div class="review-list" id="reviewQueue" aria-live="polite">
-<div class="review-row needs-review"><span class="priority-symbol">⚑</span><div class="review-copy"><strong>Demo request QC-104 · Needs staff review</strong><span>Sample case · Review status: not yet reviewed</span></div><span class="review-badge">REVIEW</span></div>
-<div class="review-row"><span class="priority-symbol" style="background:var(--mint);color:var(--teal)">☷</span><div class="review-copy"><strong>Demo request QC-105 · Routine request</strong><span>Sample case · Awaiting routine processing</span></div><span class="review-badge routine">ROUTINE</span></div>
-</div>
-<div class="review-actions"><button class="btn btn-primary" id="flagReviewButton" type="button">＋ Add sample request for staff review</button><span class="modal-note" id="reviewDemoStatus" role="status">No real patient data is used.</span></div>
-<p class="review-footnote">For a real deployment, only authorized hospital staff should assess clinical urgency under the hospital's approved triage procedures. This prototype only demonstrates how a review flag can be displayed.</p>
-</section>
-<section id="quick-actions"><div class="section-title"><h2>Quick actions</h2><span>What would you like to do?</span></div><div class="quick-actions">
-<button class="action" data-action="book"><span class="action-icon">＋</span><strong>Request a visit</strong><span>Choose a department and preferred date.</span></button>
-<button class="action" data-toast="Queue tracking is a prototype feature. Live status requires hospital integration."><span class="action-icon">☷</span><strong>Check queue</strong><span>Preview queue information and wait estimates.</span></button>
-<button class="action" data-toast="Reminder settings are not connected in this demo."><span class="action-icon">♧</span><strong>Visit reminders</strong><span>See how appointment reminders could work.</span></button>
-<button class="action" data-toast="Bring official identification and follow the hospital's own instructions. Requirements may differ by service."><span class="action-icon">✓</span><strong>Visit checklist</strong><span>Review what to prepare before you go.</span></button>
-</div></section>
-<section id="citizen-tools">
-<div class="section-title"><h2>Citizen-friendly tools</h2><span>Designed for different literacy and language needs</span></div>
-<div class="feature-hub">
-<section class="panel ai-chat">
-<div class="panel-head"><h3>✦ QuickCare Health Guide</h3><span class="pill pill-demo">DEMO ASSISTANT</span></div>
-<p class="chat-intro">Ask general questions about preparing for a hospital visit, choosing a department, or understanding common health words. Choose a language below.</p>
-<div class="chat-messages" id="chatMessages" aria-live="polite">
-<div class="chat-bubble bot">Hello! I can help explain general health information and how to prepare for an appointment. I cannot diagnose a disease or replace a qualified health professional. What would you like help understanding?</div>
-</div>
-<div class="chat-controls">
-<select id="chatLanguage" aria-label="Choose chat language"><option value="en">English</option><option value="id">Bahasa Indonesia</option><option value="ur">اردو (Urdu)</option><option value="ms">Bahasa Melayu</option><option value="ar">العربية (Arabic)</option></select>
-<input id="chatQuestion" placeholder="Type a question in your language…" aria-label="Your question">
-</div>
-<button class="btn btn-primary chat-send" id="sendChat" type="button">Send question ↗</button>
-<p class="safety-note">Safety first: this demo does not provide diagnosis or treatment. If symptoms feel severe or life-threatening, contact local emergency services or go to the nearest emergency department.</p>
-</section>
-<section class="panel translator-card">
-<div class="panel-head"><h3>🗣️ Medical words, made simple</h3><span class="pill pill-demo">SAMPLE TRANSLATOR</span></div>
-<p>Paste a medical term or choose an example to see a plain-language explanation. This is a small offline demo dictionary, not a complete medical translator.</p>
-<div class="field" style="margin:0"><label for="medicalTerm">Medical word or phrase</label><input class="translator-input" id="medicalTerm" placeholder="e.g. hypertension"></div>
-<div class="translation-examples"><button class="term-chip" data-term="hypertension">Hypertension</button><button class="term-chip" data-term="outpatient">Outpatient</button><button class="term-chip" data-term="fasting">Fasting</button><button class="term-chip" data-term="referral">Referral</button></div>
-<button class="btn btn-primary" id="explainTerm" type="button">Explain in simple words</button>
-<div class="translator-output" id="translationOutput" aria-live="polite">Your simple explanation will appear here.</div>
-<p>For important instructions, medicine labels, test results, or consent forms, ask a qualified healthcare professional to explain them in your preferred language.</p>
-</section>
-</div>
-</section>
-<div class="extra-grid">
-<section class="panel" id="visit-readiness">
-<div class="panel-head"><h3>✓ Visit Readiness Checker</h3><span class="pill pill-demo">INTERACTIVE DEMO</span></div>
-<p class="modal-note" style="margin:0 0 14px">Tick what you have prepared. Requirements vary by hospital and appointment type, so follow the hospital's official instructions.</p>
-<div class="checklist" id="readinessChecklist">
-<label class="checkline"><input type="checkbox"> I checked the appointment date, time, and department.</label>
-<label class="checkline"><input type="checkbox"> I checked the hospital's official ID/document requirements.</label>
-<label class="checkline"><input type="checkbox"> I checked whether a referral or prior test is required.</label>
-<label class="checkline"><input type="checkbox"> I know the hospital location and how to get there.</label>
-</div>
-<div class="queue-details"><div class="queue-detail"><span>Checklist progress</span><strong id="readinessProgress">0 of 4 complete</strong></div><div class="queue-detail"><span>Readiness</span><strong id="readinessStatus">Not finished</strong></div></div>
-</section>
-<section class="panel" id="visit-guide">
-<div class="panel-head"><h3>🏥 Hospital Visit Guide</h3><span class="pill pill-demo">SAMPLE GUIDE</span></div>
-<div class="guide-grid">
-<div class="guide-item"><strong>General Medicine</strong><p>For general outpatient concerns. Ask the hospital if a referral is needed.</p></div>
-<div class="guide-item"><strong>Dental Clinic</strong><p>Check dental clinic hours and whether new patients need a separate registration.</p></div>
-<div class="guide-item"><strong>Eye Clinic</strong><p>Confirm service availability and bring any relevant referral or glasses if requested.</p></div>
-<div class="guide-item"><strong>Maternal & Child Health</strong><p>Check the clinic schedule and the documents requested for your visit.</p></div>
-</div>
-<p class="modal-note" style="margin:12px 0 0">These are general examples, not verified requirements for a specific hospital. Confirm details through official hospital channels.</p>
-</section>
-</div>
-<section class="panel" id="appointment-management" style="margin-top:18px">
-<div class="panel-head"><h3>↻ Appointment change & cancellation</h3><span class="pill pill-demo">DEMO WORKFLOW</span></div>
-<p class="modal-note">In a connected system, cancelling a slot could let staff offer it to the next eligible person under hospital rules. Try the sample action below to demonstrate the workflow.</p>
-<div class="slot-row"><div><strong>Sample slot · Dental Clinic</strong><br><span style="color:var(--muted)">28 Oct · 11:00 AM · Fictional appointment</span></div><button class="small-btn" id="cancelDemoAppointment">Request cancellation</button></div>
-<div class="confirmation-box" id="cancelResult" role="status"></div>
-</section>
-<div class="bottom-grid">
-<section class="panel" id="notifications"><div class="panel-head"><h3>🔔 Appointment confirmations & notifications</h3><span class="pill pill-demo">LOCAL DEMO</span></div>
-<div class="notification-list" id="notificationList">
-<article class="notification-item"><span class="notice-icon">ⓘ</span><div><strong>Notifications are ready to preview</strong><p>When you submit the sample appointment form, a demo confirmation will appear here. No email or SMS is sent.</p></div></article>
-</div>
-<div class="confirmation-box" id="confirmationBox" role="status" aria-live="polite"></div>
-<p class="modal-note" style="margin:12px 0 0">Real email/SMS reminders need a backend, verified contact details, and an authorized notification service.</p>
-</section>
-<section class="panel" id="announcements"><div class="panel-head"><h3>Service announcements</h3><span class="pill pill-demo">SAMPLE</span></div>
-<article class="notice"><span class="notice-icon">ⓘ</span><div><strong>Check official service hours</strong><p>Confirm clinic hours and availability through the hospital's official channels.</p></div></article>
-<article class="notice"><span class="notice-icon">♧</span><div><strong>Protect your personal information</strong><p>Never share passwords or sensitive medical details on a public or unverified website.</p></div></article>
-<article class="notice"><span class="notice-icon">✚</span><div><strong>This is a student prototype</strong><p>QUICKCARE is not an official government portal and does not provide medical advice.</p></div></article></section>
-<section class="panel" id="help"><div class="panel-head"><h3>Before your hospital visit</h3><a href="#help" data-toast="This checklist is general. Follow instructions from your hospital.">Checklist ↗</a></div>
-<article class="notice"><span class="notice-icon">1</span><div><strong>Confirm the right department</strong><p>Check which clinic or service can help with your needs.</p></div></article>
-<article class="notice"><span class="notice-icon">2</span><div><strong>Check official requirements</strong><p>Ask the hospital what documents or referral details are needed.</p></div></article>
-<article class="notice"><span class="notice-icon">3</span><div><strong>Wait for official confirmation</strong><p>A form on this demo does not reserve an appointment.</p></div></article></section>
-</div>
-<footer class="footer">QUICKCARE · Government Hospital Appointment &amp; Queue Management System<br>Student prototype only — not affiliated with or connected to a government hospital.</footer>
-</div></main></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modal-head"><h3 id="modalTitle">Request an appointment</h3><button class="close-btn" id="closeModal" aria-label="Close">✕</button></div>
-<form id="bookingForm"><div class="form-row"><div class="field"><label for="demoName">Sample name</label><input id="demoName" placeholder="e.g. Alex Citizen" required></div><div class="field"><label for="demoEmail">Sample email</label><input id="demoEmail" type="email" placeholder="alex@example.com" required></div></div>
-<div class="form-row"><div class="field"><label for="demoDepartment">Department / clinic</label><select id="demoDepartment" required><option value="">Choose a department</option><option>General Medicine</option><option>Internal Medicine</option><option>Cardiology (Heart)</option><option>Dermatology (Skin)</option><option>Dental Clinic</option><option>Eye Clinic / Ophthalmology</option><option>Ear, Nose and Throat (ENT)</option><option>Orthopedics (Bones and Joints)</option><option>Neurology (Nervous System)</option><option>Pediatrics (Children)</option><option>Obstetrics and Gynecology</option><option>Maternal and Child Health</option><option>Psychiatry / Mental Health</option><option>Pulmonology (Lungs)</option><option>Rehabilitation / Physiotherapy</option><option>Nutrition and Dietetics</option><option>Other outpatient service</option></select></div><div class="field"><label for="demoDate">Preferred date</label><input id="demoDate" type="date" required></div></div>
-<div class="field"><label for="demoTime">Preferred booking time</label><select id="demoTime" required><option value="">Choose a time</option><option value="08:00">08:00 AM</option><option value="08:30">08:30 AM</option><option value="09:00">09:00 AM</option><option value="09:30">09:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="13:00">01:00 PM</option><option value="13:30">01:30 PM</option><option value="14:00">02:00 PM</option><option value="14:30">02:30 PM</option></select><p class="modal-note" style="margin:6px 0 0">Sample time slots for the prototype. Actual availability depends on hospital schedules.</p></div>
-<div class="field"><label for="demoNote">Optional note (no medical details)</label><textarea id="demoNote" placeholder="A short non-sensitive note"></textarea></div><button class="btn btn-primary" type="submit" style="width:100%">Preview request</button>
-<p class="modal-note" style="margin:12px 0 0">Demo only: use fictional details. The form does not send or save information and does not book an appointment.</p><div id="formResult" class="modal-note" style="display:none;background:var(--green);color:#197348;padding:12px;border-radius:10px;margin-top:12px" role="status"></div></form></div></div>
-<script>
-document.getElementById('todayDate').textContent='📅 '+new Intl.DateTimeFormat('en',{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(new Date());
-const dateInput=document.getElementById('demoDate');const now=new Date();dateInput.min=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
-const toast=document.getElementById('toast');function showToast(message){toast.textContent=message;toast.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.style.display='none',3600)}
-const modal=document.getElementById('bookingModal');function openBooking(){modal.style.display='flex';document.getElementById('demoName').focus()}function closeBooking(){modal.style.display='none'}
-document.querySelectorAll('[data-action="book"]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();openBooking()}));
-document.querySelectorAll('[data-toast]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();showToast(el.getAttribute('data-toast'))}));
-document.getElementById('closeModal').addEventListener('click',closeBooking);modal.addEventListener('click',event=>{if(event.target===modal)closeBooking()});document.addEventListener('keydown',event=>{if(event.key==='Escape')closeBooking()});
-document.getElementById('bookingForm').addEventListener('submit',event=>{event.preventDefault();const dept=document.getElementById('demoDepartment').value;const date=document.getElementById('demoDate').value;const time=document.getElementById('demoTime').value;const timeLabel=document.getElementById('demoTime').selectedOptions[0].textContent;const requestId='QC-'+Date.now().toString().slice(-6);const requests=qcRead(QC_KEYS.requests,[]);requests.unshift({id:requestId,name:document.getElementById('demoName').value,department:dept,date:date,time:time,timeLabel:timeLabel,status:'Request preview only',priority:'routine',createdAt:new Date().toISOString()});qcWrite(QC_KEYS.requests,requests);const result=document.getElementById('formResult');const niceDate=new Intl.DateTimeFormat('en',{day:'numeric',month:'short',year:'numeric'}).format(new Date(date+'T12:00:00'));result.textContent='Demo confirmation preview: request for '+dept+' on '+niceDate+' at '+timeLabel+'. Status: REQUEST PREVIEW ONLY. No appointment was booked and no details were sent or saved.';result.style.display='block';const box=document.getElementById('confirmationBox');box.style.display='block';box.textContent='✓ Demo request preview: '+dept+' · '+niceDate+' · '+timeLabel+' · Status: Request preview only. This is not a confirmed hospital appointment.';const list=document.getElementById('notificationList');list.innerHTML='<article class="notification-item"><span class="notice-icon">✓</span><div><strong>Appointment request preview created</strong><p>'+dept+' · '+niceDate+' · '+timeLabel+'<br>Status: Demo only — not sent to a hospital.</p></div></article>'+list.innerHTML;showToast('Demo confirmation added to your notifications. No message was sent.');});
-document.getElementById('notificationButton').addEventListener('click',()=>showToast('These are sample notifications. Real alerts require a connected hospital service.'));
-// Demonstration only: a review flag moves a fictional request to the top of the review list, not a clinical treatment queue.
-let reviewDemoCount=106;
-document.getElementById('flagReviewButton').addEventListener('click',()=>{
- const requests=qcRead(QC_KEYS.requests,[]);requests.unshift({id:'QC-'+reviewDemoCount,name:'Demo citizen',department:'General Medicine',date:'To be reviewed',status:'Needs staff review',priority:'review',createdAt:new Date().toISOString()});qcWrite(QC_KEYS.requests,requests);
- const queue=document.getElementById('reviewQueue');
- const row=document.createElement('div');row.className='review-row needs-review';
- const symbol=document.createElement('span');symbol.className='priority-symbol';symbol.textContent='⚑';
- const copy=document.createElement('div');copy.className='review-copy';
- const title=document.createElement('strong');title.textContent='Demo request QC-'+reviewDemoCount+' · Needs staff review';
- const detail=document.createElement('span');detail.textContent='Fictional request added for demonstration · Review status: not yet reviewed';
- const badge=document.createElement('span');badge.className='review-badge';badge.textContent='REVIEW';
- copy.append(title,detail);row.append(symbol,copy,badge);queue.prepend(row);
- document.getElementById('reviewDemoStatus').textContent='Sample request QC-'+reviewDemoCount+' added to the top of the review list.';
- reviewDemoCount++;showToast('Sample request added to the staff review list. No real patient was contacted.');
-});
-document.getElementById('mobileMenu').addEventListener('click',()=>showToast('Use the dashboard cards and quick actions to navigate this mobile demo.'));
 
-// Front-end-only multilingual assistant demonstration; connect a reviewed AI service for real answers.
-const chatMessages=document.getElementById('chatMessages');
-const chatQuestion=document.getElementById('chatQuestion');
-const chatLanguage=document.getElementById('chatLanguage');
-function addChatBubble(text,kind){const bubble=document.createElement('div');bubble.className='chat-bubble '+kind;bubble.textContent=text;chatMessages.appendChild(bubble);chatMessages.scrollTop=chatMessages.scrollHeight}
-function demoHealthReply(question,lang){
- const q=question.toLowerCase();
- const urgent=/can't breathe|cannot breathe|chest pain|severe bleeding|unconscious|difficulty breathing|susah bernapas|sesak napas|nyeri dada|dada sakit/.test(q);
- if(lang==='id') return urgent?'Keluhan yang Anda tulis mungkin memerlukan bantuan segera. Hubungi layanan darurat setempat atau pergi ke IGD terdekat. Saya tidak dapat mendiagnosis.':'Saya bisa membantu dengan informasi umum, tetapi tidak dapat menentukan penyakit atau memberi diagnosis. Untuk keluhan yang berlanjut, memburuk, atau membuat Anda khawatir, hubungi tenaga kesehatan. Saya juga dapat membantu menjelaskan istilah rumah sakit atau persiapan janji temu.';
- if(lang==='ur') return urgent?'آپ کی بات فوری مدد کی ضرورت ظاہر کر سکتی ہے۔ مقامی ایمرجنسی سروس سے رابطہ کریں یا قریبی ایمرجنسی شعبے میں جائیں۔ میں تشخیص نہیں کر سکتا۔':'میں عام معلومات آسان الفاظ میں سمجھا سکتا ہوں، لیکن بیماری کی تشخیص نہیں کر سکتا۔ اگر علامات برقرار رہیں، بڑھیں یا پریشان کریں تو کسی مستند طبی ماہر سے رابطہ کریں۔';
- if(lang==='ms') return urgent?'Gejala yang anda nyatakan mungkin memerlukan bantuan segera. Hubungi perkhidmatan kecemasan tempatan atau pergi ke jabatan kecemasan terdekat. Saya tidak boleh membuat diagnosis.':'Saya boleh menerangkan maklumat kesihatan umum, tetapi tidak boleh mendiagnosis penyakit. Jika gejala berterusan, bertambah teruk atau membimbangkan, hubungi petugas kesihatan.';
- if(lang==='ar') return urgent?'قد تحتاج الأعراض التي ذكرتها إلى مساعدة عاجلة. اتصل بخدمات الطوارئ المحلية أو اذهب إلى أقرب قسم طوارئ. لا أستطيع التشخيص.':'يمكنني شرح معلومات صحية عامة، لكن لا أستطيع تشخيص المرض. إذا استمرت الأعراض أو ازدادت سوءًا أو أقلقتك، فتواصل مع مختص صحي.';
- return urgent?'The symptoms you mentioned may need urgent help. Contact local emergency services or go to the nearest emergency department. I cannot diagnose you.':'I can explain general health information, but I cannot identify a disease or provide a diagnosis. If symptoms persist, worsen, or worry you, contact a qualified healthcare professional. I can also help explain hospital terms or appointment preparation.';
-}
-function sendDemoQuestion(){const question=chatQuestion.value.trim();if(!question){showToast('Type a question first.');chatQuestion.focus();return}addChatBubble(question,'user');addChatBubble(demoHealthReply(question,chatLanguage.value),'bot');chatQuestion.value=''}
-document.getElementById('sendChat').addEventListener('click',sendDemoQuestion);
-chatQuestion.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();sendDemoQuestion()}});
-const medicalDictionary={
- hypertension:{en:'High blood pressure. It means the force of blood pushing against blood-vessel walls is often higher than recommended.',id:'Tekanan darah tinggi. Artinya tekanan darah pada dinding pembuluh darah sering lebih tinggi dari yang dianjurkan.',ur:'بلڈ پریشر کا اکثر معمول سے زیادہ ہونا۔',ms:'Tekanan darah tinggi, iaitu tekanan darah yang kerap melebihi paras yang disyorkan.',ar:'ارتفاع ضغط الدم؛ أي أن ضغط الدم يكون أعلى من المستوى الموصى به.'},
- outpatient:{en:'A person who receives care at a clinic or hospital without staying overnight.',id:'Pasien yang mendapat layanan di klinik atau rumah sakit tanpa perlu menginap.',ur:'ایسا مریض جو ہسپتال میں رات گزارے بغیر علاج یا معائنہ کرواتا ہے۔',ms:'Pesakit yang menerima rawatan tanpa perlu bermalam di hospital.',ar:'شخص يتلقى الرعاية في العيادة أو المستشفى دون المبيت فيه.'},
- fasting:{en:'Not eating or drinking certain things for a period. Follow the exact instructions from your clinic; rules differ by test or procedure.',id:'Tidak makan atau minum hal tertentu selama waktu tertentu. Ikuti instruksi klinik karena aturannya berbeda untuk tiap pemeriksaan.',ur:'ایک مقررہ وقت تک کچھ نہ کھانا یا نہ پینا۔ اپنے کلینک کی مخصوص ہدایات پر عمل کریں۔',ms:'Tidak makan atau minum perkara tertentu untuk tempoh yang ditetapkan. Ikut arahan klinik kerana syarat berbeza mengikut ujian.',ar:'الامتناع عن بعض الأطعمة أو المشروبات لفترة محددة. اتبع تعليمات العيادة لأن المتطلبات تختلف.'},
- referral:{en:'A recommendation or document that directs you to another doctor, clinic, or service for further care.',id:'Rujukan atau dokumen yang mengarahkan Anda ke dokter, klinik, atau layanan lain untuk perawatan lanjutan.',ur:'مزید معائنے یا علاج کے لیے کسی دوسرے ڈاکٹر یا کلینک کو بھیجنے کی ہدایت یا دستاویز۔',ms:'Surat atau arahan untuk mendapatkan rawatan lanjut daripada doktor atau klinik lain.',ar:'توصية أو وثيقة توجهك إلى طبيب أو عيادة أخرى للحصول على رعاية إضافية.'}
-};
-function explainMedicalTerm(term){const key=term.trim().toLowerCase();const entry=medicalDictionary[key];const lang=document.getElementById('chatLanguage').value;const output=document.getElementById('translationOutput');output.textContent=entry?(entry[lang]||entry.en):'This demo dictionary does not include that phrase yet. Ask a healthcare professional to explain it in your preferred language. A real translation feature needs a reviewed medical-language service.'}
-document.getElementById('explainTerm').addEventListener('click',()=>{const term=document.getElementById('medicalTerm').value;if(!term.trim()){showToast('Enter a medical word or choose an example.');return}explainMedicalTerm(term)});
-document.querySelectorAll('[data-term]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('medicalTerm').value=button.dataset.term;explainMedicalTerm(button.dataset.term)}));
+    <div class="app">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <a class="brand" href="#dashboard">
+                <span class="brand-icon">✚</span>
+                <span>
+                    <span class="brand-name">QUICKCARE</span>
+                    <span class="brand-sub">CITIZEN PORTAL</span>
+                </span>
+            </a>
 
-// Share demo workflow state between citizen and staff dashboards when opened in the same browser origin.
-const QC_KEYS={requests:'quickcareDemoRequests',notifications:'quickcareDemoNotifications',slots:'quickcareDemoReleasedSlots'};
-function qcRead(key,fallback=[]){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}}
-function qcWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
-document.getElementById('simpleModeButton').addEventListener('click',()=>{
- document.body.classList.toggle('simple-mode');
- const on=document.body.classList.contains('simple-mode');
- document.getElementById('simpleModeButton').textContent=on?'A+':'Aa';
- showToast(on?'Simple mode on: larger text and clearer cards.':'Simple mode off.');
-});
-function updateReadiness(){
- const boxes=[...document.querySelectorAll('#readinessChecklist input[type="checkbox"]')];
- const done=boxes.filter(x=>x.checked).length;
- document.getElementById('readinessProgress').textContent=done+' of '+boxes.length+' complete';
- document.getElementById('readinessStatus').textContent=done===boxes.length?'Ready to review':'In progress';
-}
-document.querySelectorAll('#readinessChecklist input').forEach(box=>box.addEventListener('change',updateReadiness));
-document.getElementById('cancelDemoAppointment').addEventListener('click',()=>{
- const released={id:'SLOT-'+Date.now(),department:'Dental Clinic',date:'28 Oct',time:'11:00 AM',status:'Released for staff review',createdAt:new Date().toISOString()};
- const slots=qcRead(QC_KEYS.slots,[]);slots.unshift(released);qcWrite(QC_KEYS.slots,slots);
- const out=document.getElementById('cancelResult');out.style.display='block';out.textContent='Demo cancellation request recorded locally. The slot is now shown for staff review; no real appointment was cancelled.';
- const notices=qcRead(QC_KEYS.notifications,[]);notices.unshift({title:'Cancellation request preview',message:'Dental Clinic sample slot released for staff review.',createdAt:new Date().toISOString()});qcWrite(QC_KEYS.notifications,notices);
- showToast('Sample cancellation added to the staff workflow.');
-});
-// Store sample appointment requests so the staff dashboard can display them in the same browser.
+            <div>
+                <div class="nav-label">MAIN MENU</div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a class="active" href="#dashboard"><span class="nav-icon">▦</span>Dashboard</a>
+                    <a href="#appointments"><span class="nav-icon">▣</span>My Appointments</a>
+                    <a href="#queue-status"><span class="nav-icon">☷</span>Queue Status</a>
+                    <a href="#quick-actions" data-action="book"><span class="nav-icon">＋</span>Book a Visit</a>
+                    <a href="#citizen-tools"><span class="nav-icon">✦</span>Citizen AI Tools</a>
+                    <a href="#visit-readiness"><span class="nav-icon">✓</span>Visit readiness</a>
+                    <a href="#notifications"><span class="nav-icon">♧</span>Notifications</a>
+                    <a href="#announcements"><span class="nav-icon">◉</span>Announcements</a>
+                </nav>
+            </div>
 
-</script>
-</body></html>
+            <div>
+                <div class="nav-label">ACCOUNT</div>
+                <nav class="nav">
+                    <a href="#profile" data-toast="Profile settings are a future feature in this student demo."><span class="nav-icon">♙</span>My Profile</a>
+                    <a href="#help" data-toast="For a real service, contact the official hospital help desk."><span class="nav-icon">ⓘ</span>Help & Support</a>
+                </nav>
+            </div>
+
+            <div class="side-help">
+                <strong>Need a little help?</strong>
+                <p>Learn what to prepare before visiting a public hospital.</p>
+                <a href="#help" data-toast="Help guide: choose a department, request a visit, and wait for official confirmation.">Open help guide →</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main" id="dashboard">
+            <!-- TOPBAR HEADER -->
+            <header class="topbar">
+                <div style="display:flex;align-items:center;gap:14px">
+                    <button class="icon-btn mobile-menu" id="mobileMenu" aria-label="Show navigation">☰</button>
+                    <div class="crumb">Citizen Portal <span style="padding:0 6px;color:#cbd5e1">/</span> <strong>Dashboard</strong></div>
+                </div>
+                <div class="top-actions">
+                    <button class="icon-btn" id="simpleModeButton" aria-label="Toggle simple mode" title="Simple mode">Aa</button>
+                    <button class="icon-btn" id="notificationButton" aria-label="Notifications" title="Notifications">♧</button>
+                    <div class="profile">
+                        <div class="avatar">CD</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Citizen Demo</div>
+                            <div class="profile-role">Public service user</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- WELCOME BANNER SECTION -->
+                <section class="welcome">
+                    <div>
+                        <div class="eyebrow">Your health, your time</div>
+                        <h1>Good day, Citizen</h1>
+                        <p>Welcome to your public hospital dashboard. Plan your visit and keep track of appointment information in one place.</p>
+                    </div>
+                    <div class="date-chip" id="todayDate">Loading date…</div>
+                </section>
+
+                <!-- PROMOTIONAL BANNER -->
+                <section class="banner">
+                    <div class="banner-copy">
+                        <span class="banner-tag">✦ A simpler hospital journey</span>
+                        <h2>Less waiting-room worry.<br>More clarity before you go.</h2>
+                        <p>Request an appointment, review your visit details, and explore how queue updates could help you plan ahead.</p>
+                        <button class="btn btn-white" data-action="book">＋ Request an Appointment</button>
+                    </div>
+                    <div class="banner-art" aria-hidden="true">✚</div>
+                </section>
+
+                <!-- STATISTICS OVERVIEW SECTION -->
+                <section aria-label="Dashboard overview">
+                    <div class="section-title">
+                        <h2>Your overview</h2>
+                        <span>Example dashboard data</span>
+                    </div>
+                    <div class="stats">
+                        <article class="stat">
+                            <div class="stat-top"><span class="stat-label">Appointments</span><span class="stat-icon ic-teal">▣</span></div>
+                            <div class="stat-number" id="appointmentCount">2</div>
+                            <div class="stat-foot">Sample records shown below</div>
+                        </article>
+                        <article class="stat">
+                            <div class="stat-top"><span class="stat-label">Pending requests</span><span class="stat-icon ic-amber">◷</span></div>
+                            <div class="stat-number" id="pendingCount">1</div>
+                            <div class="stat-foot">Awaiting sample confirmation</div>
+                        </article>
+                        <article class="stat">
+                            <div class="stat-top"><span class="stat-label">Queue updates</span><span class="stat-icon ic-blue">☷</span></div>
+                            <div class="stat-number">Demo</div>
+                            <div class="stat-foot">Not connected to a hospital</div>
+                        </article>
+                        <article class="stat">
+                            <div class="stat-top"><span class="stat-label">Citizen profile</span><span class="stat-icon ic-green">♙</span></div>
+                            <div class="stat-number">Guest</div>
+                            <div class="stat-foot">No account or personal data stored</div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- APPOINTMENTS & QUEUE PREVIEW GRID -->
+                <div class="dashboard-grid">
+                    <section class="panel" id="appointments">
+                        <div class="panel-head">
+                            <h3>My appointments</h3>
+                            <a href="#appointments" data-toast="This prototype shows sample appointments only.">View all →</a>
+                        </div>
+                        <div id="appointmentList">
+                            <article class="appointment">
+                                <div class="datebox"><strong>24</strong><span>OCT</span></div>
+                                <div class="appt-main"><strong>General Medicine</strong><span>09:30 AM · Sample Public Hospital</span></div>
+                                <span class="pill pill-confirmed">● Sample</span>
+                            </article>
+                            <article class="appointment">
+                                <div class="datebox"><strong>28</strong><span>OCT</span></div>
+                                <div class="appt-main"><strong>Dental Clinic</strong><span>11:00 AM · Sample Public Hospital</span></div>
+                                <span class="pill pill-pending">◷ Pending demo</span>
+                            </article>
+                        </div>
+                        <p class="modal-note" style="margin:14px 0 0">These are fictional examples, not real bookings.</p>
+                    </section>
+
+                    <section class="panel queue-panel" id="queue-status">
+                        <div class="panel-head">
+                            <h3>Queue status preview</h3>
+                            <span class="pill pill-demo">DEMO DATA</span>
+                        </div>
+                        <div class="queue-top">
+                            <div>
+                                <div class="queue-label">Example queue number</div>
+                                <div class="queue-number">A-024</div>
+                                <div class="queue-label">Outpatient service · Sample only</div>
+                            </div>
+                            <span class="stat-icon ic-teal" style="width:48px;height:48px;font-size:22px">☷</span>
+                        </div>
+                        <div class="queue-progress"><span></span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:600">
+                            <span>Illustrative progress</span><span>Not live</span>
+                        </div>
+                        <div class="queue-details">
+                            <div class="queue-detail"><span>People ahead</span><strong>5 (sample)</strong></div>
+                            <div class="queue-detail"><span>Estimated wait</span><strong>~25 min</strong></div>
+                        </div>
+                        <p class="queue-note">Real queue estimates require an authorized hospital system. Do not rely on sample values for a real visit.</p>
+                    </section>
+                </div>
+
+                <!-- STAFF WORKFLOW PRIORITY REVIEW QUEUE -->
+                <section class="panel priority-panel" id="priority-review">
+                    <div class="panel-head">
+                        <h3>⚑ Priority review queue</h3>
+                        <span class="pill pill-demo">STAFF WORKFLOW DEMO</span>
+                    </div>
+                    <div class="priority-banner">
+                        <span class="priority-symbol">!</span>
+                        <div>
+                            <strong>Urgent concerns need human review</strong>
+                            <p>This demo places a request marked for staff review at the top of this review list. It does not diagnose patients or decide who receives treatment first. Emergencies should not wait for online booking.</p>
+                        </div>
+                    </div>
+                    <div class="review-list" id="reviewQueue" aria-live="polite">
+                        <div class="review-row needs-review">
+                            <span class="priority-symbol">⚑</span>
+                            <div class="review-copy">
+                                <strong>Demo request QC-104 · Needs staff review</strong>
+                                <span>Sample case · Review status: not yet reviewed</span>
+                            </div>
+                            <span class="review-badge">REVIEW</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="priority-symbol" style="background:var(--primary-light);color:var(--primary)">☷</span>
+                            <div class="review-copy">
+                                <strong>Demo request QC-105 · Routine request</strong>
+                                <span>Sample case · Awaiting routine processing</span>
+                            </div>
+                            <span class="review-badge routine">ROUTINE</span>
+                        </div>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn btn-primary" id="flagReviewButton" type="button">＋ Add sample request for staff review</button>
+                        <span class="modal-note" id="reviewDemoStatus" role="status">No real patient data is used.</span>
+                    </div>
+                    <p class="review-footnote">For a real deployment, only authorized hospital staff should assess clinical urgency under the hospital's approved triage procedures. This prototype only demonstrates how a review flag can be displayed.</p>
+                </section>
+
+                <!-- QUICK ACTIONS -->
+                <section id="quick-actions">
+                    <div class="section-title">
+                        <h2>Quick actions</h2>
+                        <span>What would you like to do?</span>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="action" data-action="book">
+                            <span class="action-icon">＋</span>
+                            <strong>Request a visit</strong>
+                            <span>Choose a department and preferred date.</span>
+                        </button>
+                        <button class="action" data-toast="Queue tracking is a prototype feature. Live status requires hospital integration.">
+                            <span class="action-icon">☷</span>
+                            <strong>Check queue</strong>
+                            <span>Preview queue information and wait estimates.</span>
+                        </button>
+                        <button class="action" data-toast="Reminder settings are not connected in this demo.">
+                            <span class="action-icon">♧</span>
+                            <strong>Visit reminders</strong>
+                            <span>See how appointment reminders could work.</span>
+                        </button>
+                        <button class="action" data-toast="Bring official identification and follow the hospital's own instructions. Requirements may differ by service.">
+                            <span class="action-icon">✓</span>
+                            <strong>Visit checklist</strong>
+                            <span>Review what to prepare before you go.</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- CITIZEN AI TOOLS (MODERN DESIGN) -->
+                <section class="ai-hub-section" id="citizen-tools">
+                    <div class="ai-hub-header">
+                        <div class="ai-hub-title">
+                            <div class="ai-hub-icon">✦</div>
+                            <div>
+                               <h2>Citizen AI Assistant & Tools</h2>
+                               <p>Multilingual guidance and plain-language medical dictionaries designed for everyone.</p>
+                            </div>
+                        </div>
+                        <span class="pill pill-demo" style="background:rgba(13,148,136,0.15); color:var(--primary-dark); font-weight:800;">ENHANCED AI DEMO</span>
+                    </div>
+
+                    <div class="feature-hub">
+                        <!-- AI Health Guide Chat Assistant -->
+                        <section class="ai-chat">
+                            <div class="panel-head" style="margin-bottom:12px;">
+                                <h3>QuickCare Health Guide</h3>
+                                <span class="pill pill-demo">AI ASSISTANT</span>
+                            </div>
+                            <p class="chat-intro">Ask general questions about hospital preparation or choose a quick prompt below.</p>
+                            
+                            <div class="chat-quick-prompts">
+                                <span class="prompt-chip" onclick="selectPrompt('How to prepare for blood test?')">Fasting rules</span>
+                                <span class="prompt-chip" onclick="selectPrompt('What documents do I need to bring?')">Documents needed</span>
+                                <span class="prompt-chip" onclick="selectPrompt('How do I choose the right clinic?')">Choose clinic</span>
+                            </div>
+
+                            <div class="chat-messages" id="chatMessages" aria-live="polite">
+                                <div class="chat-bubble bot">Hello! I am your AI assistant guide. I can help explain hospital preparations and procedures. How can I help you today?</div>
+                            </div>
+                            
+                            <div class="chat-controls">
+                                <select id="chatLanguage" aria-label="Choose chat language">
+                                    <option value="en">English</option>
+                                    <option value="id">Bahasa Indonesia</option>
+                                    <option value="ur">اردو (Urdu)</option>
+                                    <option value="ms">Bahasa Melayu</option>
+                                    <option value="ar">العربية (Arabic)</option>
+                                </select>
+                                <input id="chatQuestion" placeholder="Type a question…" aria-label="Your question">
+                            </div>
+                            <button class="btn btn-primary chat-send" id="sendChat" type="button">Send question ↗</button>
+                            <p class="safety-note"><strong>Safety Notice:</strong> This assistant provides general information only, not medical diagnosis. Seek emergency care immediately if experiencing severe symptoms.</p>
+                        </section>
+
+                        <!-- Medical Dictionary Translator -->
+                        <section class="translator-card">
+                            <div class="panel-head" style="margin-bottom:12px;">
+                                <h3>Medical Words Made Simple</h3>
+                                <span class="pill pill-demo">TRANSLATOR</span>
+                            </div>
+                            <p>Translate or simplify complex medical terminology instantly into clear, plain language.</p>
+                            
+                            <div class="field" style="margin:0 0 12px 0">
+                                <label for="medicalTerm">Medical word or phrase</label>
+                                <input class="translator-input" id="medicalTerm" placeholder="e.g. hypertension">
+                            </div>
+                            
+                            <div class="translation-examples">
+                                <button class="term-chip" data-term="hypertension">Hypertension</button>
+                                <button class="term-chip" data-term="outpatient">Outpatient</button>
+                                <button class="term-chip" data-term="fasting">Fasting</button>
+                                <button class="term-chip" data-term="referral">Referral</button>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="explainTerm" type="button" style="width:100%; border-radius:14px; padding:13px;">Explain in simple words</button>
+                            
+                            <div class="translator-output" id="translationOutput" aria-live="polite">Your simple explanation will appear here after selecting or typing a term.</div>
+                        </section>
+                    </div>
+                </section>
+
+                <!-- VISIT READINESS & GUIDE GRID -->
+                <div class="extra-grid">
+                    <section class="panel" id="visit-readiness">
+                        <div class="panel-head">
+                            <h3>✓ Visit Readiness Checker</h3>
+                            <span class="pill pill-demo">INTERACTIVE DEMO</span>
+                        </div>
+                        <p class="modal-note" style="margin:0 0 16px">Tick what you have prepared. Requirements vary by hospital and appointment type, so follow the hospital's official instructions.</p>
+                        <div class="checklist" id="readinessChecklist">
+                            <label class="checkline"><input type="checkbox"> I checked the appointment date, time, and department.</label>
+                            <label class="checkline"><input type="checkbox"> I checked the hospital's official ID/document requirements.</label>
+                            <label class="checkline"><input type="checkbox"> I checked whether a referral or prior test is required.</label>
+                            <label class="checkline"><input type="checkbox"> I know the hospital location and how to get there.</label>
+                        </div>
+                        <div class="queue-details">
+                            <div class="queue-detail"><span>Checklist progress</span><strong id="readinessProgress">0 of 4 complete</strong></div>
+                            <div class="queue-detail"><span>Readiness</span><strong id="readinessStatus">Not finished</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="panel" id="visit-guide">
+                        <div class="panel-head">
+                            <h3>Hospital Visit Guide</h3>
+                            <span class="pill pill-demo">SAMPLE GUIDE</span>
+                        </div>
+                        <div class="guide-grid">
+                            <div class="guide-item">
+                                <strong>General Medicine</strong>
+                                <p>For general outpatient concerns. Ask the hospital if a referral is needed.</p>
+                            </div>
+                            <div class="guide-item">
+                                <strong>Dental Clinic</strong>
+                                <p>Check dental clinic hours and whether new patients need a separate registration.</p>
+                            </div>
+                            <div class="guide-item">
+                                <strong>Eye Clinic</strong>
+                                <p>Confirm service availability and bring any relevant referral or glasses if requested.</p>
+                            </div>
+                            <div class="guide-item">
+                                <strong>Maternal & Child Health</strong>
+                                <p>Check the clinic schedule and the documents requested for your visit.</p>
+                            </div>
+                        </div>
+                        <p class="modal-note" style="margin:14px 0 0">These are general examples, not verified requirements for a specific hospital. Confirm details through official hospital channels.</p>
+                    </section>
+                </div>
+
+                <!-- APPOINTMENT CHANGE & CANCELLATION -->
+                <section class="panel" id="appointment-management" style="margin-top:20px">
+                    <div class="panel-head">
+                        <h3>↻ Appointment change & cancellation</h3>
+                        <span class="pill pill-demo">DEMO WORKFLOW</span>
+                    </div>
+                    <p class="modal-note">In a connected system, cancelling a slot could let staff offer it to the next eligible person under hospital rules. Try the sample action below to demonstrate the workflow.</p>
+                    <div class="slot-row">
+                        <div><strong>Sample slot · Dental Clinic</strong><br><span style="color:var(--muted)">28 Oct · 11:00 AM · Fictional appointment</span></div>
+                        <button class="small-btn" id="cancelDemoAppointment">Request cancellation</button>
+                    </div>
+                    <div class="confirmation-box" id="cancelResult" role="status"></div>
+                </section>
+
+                <!-- NOTIFICATIONS & ANNOUNCEMENTS GRID -->
+                <div class="bottom-grid">
+                    <section class="panel" id="notifications">
+                        <div class="panel-head">
+                            <h3> Appointment confirmations & notifications</h3>
+                            <span class="pill pill-demo">LOCAL DEMO</span>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <article class="notification-item">
+                                <span class="notice-icon">ⓘ</span>
+                                <div>
+                                    <strong>Notifications are ready to preview</strong>
+                                    <p>When you submit the sample appointment form, a demo confirmation will appear here. No email or SMS is sent.</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="confirmation-box" id="confirmationBox" role="status" aria-live="polite"></div>
+                        <p class="modal-note" style="margin:14px 0 0">Real email/SMS reminders need a backend, verified contact details, and an authorized notification service.</p>
+                    </section>
+
+                    <section class="panel" id="announcements">
+                        <div class="panel-head">
+                            <h3>Service announcements</h3>
+                            <span class="pill pill-demo">SAMPLE</span>
+                        </div>
+                        <article class="notice">
+                            <span class="notice-icon">ⓘ</span>
+                            <div>
+                                <strong>Check official service hours</strong>
+                                <p>Confirm clinic hours and availability through the hospital's official channels.</p>
+                            </div>
+                        </article>
+                        <article class="notice">
+                            <span class="notice-icon">♧</span>
+                            <div>
+                                <strong>Protect your personal information</strong>
+                                <p>Never share passwords or sensitive medical details on a public or unverified website.</p>
+                            </div>
+                        </article>
+                        <article class="notice">
+                            <span class="notice-icon">✚</span>
+                            <div>
+                                <strong>This is a student prototype</strong>
+                                <p>QUICKCARE is not an official government portal and does not provide medical advice.</p>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+
+                <!-- HELP SECTION -->
+                <section class="panel" id="help" style="margin-top:20px">
+                    <div class="panel-head">
+                        <h3>Before your hospital visit</h3>
+                        <a href="#help" data-toast="This checklist is general. Follow instructions from your hospital.">Checklist ↗</a>
+                    </div>
+                    <article class="notice">
+                        <span class="notice-icon">1</span>
+                        <div>
+                            <strong>Confirm the right department</strong>
+                            <p>Check which clinic or service can help with your needs.</p>
+                        </div>
+                    </article>
+                    <article class="notice">
+                        <span class="notice-icon">2</span>
+                        <div>
+                            <strong>Check official requirements</strong>
+                            <p>Ask the hospital what documents or referral details are needed.</p>
+                        </div>
+                    </article>
+                    <article class="notice">
+                        <span class="notice-icon">3</span>
+                        <div>
+                            <strong>Wait for official confirmation</strong>
+                            <p>A form on this demo does not reserve an appointment.</p>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    QUICKCARE · Government Hospital Appointment &amp; Queue Management System<br>
+                    Student prototype only — not affiliated with or connected to a government hospital.
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION POPUP -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- BOOKING MODAL POPUP -->
+    <div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <div class="modal-head">
+                <h3 id="modalTitle">Request an appointment</h3>
+                <button class="close-btn" id="closeModal" aria-label="Close">✕</button>
+            </div>
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="field">
+                        <label for="demoName">Sample name</label>
+                        <input id="demoName" placeholder="e.g. Alex Citizen" required>
+                    </div>
+                    <div class="field">
+                        <label for="demoEmail">Sample email</label>
+                        <input id="demoEmail" type="email" placeholder="alex@example.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="field">
+                        <label for="demoDepartment">Department / clinic</label>
+                        <select id="demoDepartment" required>
+                            <option value="">Choose a department</option>
+                            <option>General Medicine</option>
+                            <option>Internal Medicine</option>
+                            <option>Cardiology (Heart)</option>
+                            <option>Dermatology (Skin)</option>
+                            <option>Dental Clinic</option>
+                            <option>Eye Clinic / Ophthalmology</option>
+                            <option>Ear, Nose and Throat (ENT)</option>
+                            <option>Orthopedics (Bones and Joints)</option>
+                            <option>Neurology (Nervous System)</option>
+                            <option>Pediatrics (Children)</option>
+                            <option>Obstetrics and Gynecology</option>
+                            <option>Maternal and Child Health</option>
+                            <option>Psychiatry / Mental Health</option>
+                            <option>Pulmonology (Lungs)</option>
+                            <option>Rehabilitation / Physiotherapy</option>
+                            <option>Nutrition and Dietetics</option>
+                            <option>Other outpatient service</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="demoDate">Preferred date</label>
+                        <input id="demoDate" type="date" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="demoTime">Preferred booking time</label>
+                    <select id="demoTime" required>
+                        <option value="">Choose a time</option>
+                        <option value="08:00">08:00 AM</option>
+                        <option value="08:30">08:30 AM</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="09:30">09:30 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="11:30">11:30 AM</option>
+                        <option value="13:00">01:00 PM</option>
+                        <option value="13:30">01:30 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="14:30">02:30 PM</option>
+                    </select>
+                    <p class="modal-note" style="margin:6px 0 0">Sample time slots for the prototype. Actual availability depends on hospital schedules.</p>
+                </div>
+                <div class="field">
+                    <label for="demoNote">Optional note (no medical details)</label>
+                    <textarea id="demoNote" placeholder="A short non-sensitive note"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit" style="width:100%">Preview request</button>
+                <p class="modal-note" style="margin:14px 0 0">Demo only: use fictional details. The form does not send or save information and does not book an appointment.</p>
+                <div id="formResult" class="modal-note" style="display:none;background:var(--green-bg);color:var(--green-text);padding:14px;border-radius:12px;margin-top:14px;border:1px solid #bbf7d0" role="status"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        document.getElementById('todayDate').textContent =new Intl.DateTimeFormat('en', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date());
+        const dateInput = document.getElementById('demoDate');
+        const now = new Date();
+        dateInput.min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+        const toast = document.getElementById('toast');
+        function showToast(message) {
+            toast.textContent = message;
+            toast.style.display = 'block';
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(() => toast.style.display = 'none', 3600);
+        }
+
+        const modal = document.getElementById('bookingModal');
+        function openBooking() { modal.style.display = 'flex'; document.getElementById('demoName').focus(); }
+        function closeBooking() { modal.style.display = 'none'; }
+
+        document.querySelectorAll('[data-action="book"]').forEach(el => el.addEventListener('click', event => { event.preventDefault(); openBooking(); }));
+        document.querySelectorAll('[data-toast]').forEach(el => el.addEventListener('click', event => { event.preventDefault(); showToast(el.getAttribute('data-toast')); }));
+        document.getElementById('closeModal').addEventListener('click', closeBooking);
+        modal.addEventListener('click', event => { if (event.target === modal) closeBooking(); });
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') closeBooking(); });
+
+        document.getElementById('bookingForm').addEventListener('submit', event => {
+            event.preventDefault();
+            const dept = document.getElementById('demoDepartment').value;
+            const date = document.getElementById('demoDate').value;
+            const time = document.getElementById('demoTime').value;
+            const timeLabel = document.getElementById('demoTime').selectedOptions[0].textContent;
+            const requestId = 'QC-' + Date.now().toString().slice(-6);
+            const requests = qcRead(QC_KEYS.requests, []);
+            requests.unshift({ id: requestId, name: document.getElementById('demoName').value, department: dept, date: date, time: time, timeLabel: timeLabel, status: 'Request preview only', priority: 'routine', createdAt: new Date().toISOString() });
+            qcWrite(QC_KEYS.requests, requests);
+
+            const result = document.getElementById('formResult');
+            const niceDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(date + 'T12:00:00'));
+            result.textContent = 'Demo confirmation preview: request for ' + dept + ' on ' + niceDate + ' at ' + timeLabel + '. Status: REQUEST PREVIEW ONLY. No appointment was booked and no details were sent or saved.';
+            result.style.display = 'block';
+
+            const box = document.getElementById('confirmationBox');
+            box.style.display = 'block';
+            box.textContent = '✓ Demo request preview: ' + dept + ' · ' + niceDate + ' · ' + timeLabel + ' · Status: Request preview only. This is not a confirmed hospital appointment.';
+
+            const list = document.getElementById('notificationList');
+            list.innerHTML = '<article class="notification-item"><span class="notice-icon">✓</span><div><strong>Appointment request preview created</strong><p>' + dept + ' · ' + niceDate + ' · ' + timeLabel + '<br>Status: Demo only — not sent to a hospital.</p></div></article>' + list.innerHTML;
+            showToast('Demo confirmation added to your notifications. No message was sent.');
+        });
+
+        document.getElementById('notificationButton').addEventListener('click', () => showToast('These are sample notifications. Real alerts require a connected hospital service.'));
+
+        let reviewDemoCount = 106;
+        document.getElementById('flagReviewButton').addEventListener('click', () => {
+            const requests = qcRead(QC_KEYS.requests, []);
+            requests.unshift({ id: 'QC-' + reviewDemoCount, name: 'Demo citizen', department: 'General Medicine', date: 'To be reviewed', status: 'Needs staff review', priority: 'review', createdAt: new Date().toISOString() });
+            qcWrite(QC_KEYS.requests, requests);
+
+            const queue = document.getElementById('reviewQueue');
+            const row = document.createElement('div'); row.className = 'review-row needs-review';
+            const symbol = document.createElement('span'); symbol.className = 'priority-symbol'; symbol.textContent = '⚑';
+            const copy = document.createElement('div'); copy.className = 'review-copy';
+            const title = document.createElement('strong'); title.textContent = 'Demo request QC-' + reviewDemoCount + ' · Needs staff review';
+            const detail = document.createElement('span'); detail.textContent = 'Fictional request added for demonstration · Review status: not yet reviewed';
+            const badge = document.createElement('span'); badge.className = 'review-badge'; badge.textContent = 'REVIEW';
+            copy.append(title, detail); row.append(symbol, copy, badge); queue.prepend(row);
+            document.getElementById('reviewDemoStatus').textContent = 'Sample request QC-' + reviewDemoCount + ' added to the top of the review list.';
+            reviewDemoCount++;
+            showToast('Sample request added to the staff review list. No real patient was contacted.');
+        });
+
+        document.getElementById('mobileMenu').addEventListener('click', () => showToast('Use the dashboard cards and quick actions to navigate this mobile demo.'));
+
+        const chatMessages = document.getElementById('chatMessages');
+        const chatQuestion = document.getElementById('chatQuestion');
+        const chatLanguage = document.getElementById('chatLanguage');
+
+        function addChatBubble(text, kind) {
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble ' + kind;
+            bubble.textContent = text;
+            chatMessages.appendChild(bubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function demoHealthReply(question, lang) {
+            const q = question.toLowerCase();
+            const urgent = /can't breathe|cannot breathe|chest pain|severe bleeding|unconscious|difficulty breathing|susah bernapas|sesak napas|nyeri dada|dada sakit/.test(q);
+            if (lang === 'id') return urgent ? 'Keluhan yang Anda tulis mungkin memerlukan bantuan segera. Hubungi layanan darurat setempat atau pergi ke IGD terdekat. Saya tidak dapat mendiagnosis.' : 'Saya bisa membantu dengan informasi umum, tetapi tidak dapat menentukan penyakit atau memberi diagnosis. Untuk keluhan yang berlanjut, memburuk, atau membuat Anda khawatir, hubungi tenaga kesehatan. Saya juga dapat membantu menjelaskan istilah rumah sakit atau persiapan janji temu.';
+            if (lang === 'ur') return urgent ? 'آپ کی بات فوری مدد کی ضرورت ظاہر کر سکتی ہے۔ مقامی ایمرجنسی سروس سے رابطہ کریں یا قریبی ایمرجنسی شعبے میں جائیں۔ میں تشخیص نہیں کر سکتا۔' : 'میں عام معلومات آسان الفاظ میں سمجھا سکتا ہوں، لیکن بیماری کی تشخیص نہیں کر سکتا۔ اگر علامات برقرار رہیں، بڑھیں یا پریشان کریں تو کسی مستند طبی ماہر سے رابطہ کریں۔';
+            if (lang === 'ms') return urgent ? 'Gejala yang anda nyatakan mungkin memerlukan bantuan segera. Hubungi perkhidmatan kecemasan tempatan atau pergi ke jabatan kecemasan terdekat. Saya tidak boleh membuat diagnosis.' : 'Saya boleh menerangkan maklumat kesihatan umum, tetapi tidak boleh mendiagnosis penyakit. Jika gejala berterusan, bertambah teruk atau membimbangkan, hubungi petugas kesihatan.';
+            if (lang === 'ar') return urgent ? 'قد تحتاج الأعراض التي ذكرتها إلى مساعدة عاجلة. اتصل بخدمات الطوارئ المحلية أو اذهب إلى أقرب قسم طوارئ. لا أستطيع التشخيص.' : 'يمكنني شرح معلومات صحية عامة، لكن لا أستطيع تشخيص المرض. إذا استمرت الأعراض أو ازدادت سوءًا أو أقلقتك، فتواصل مع مختص صحي.';
+            return urgent ? 'The symptoms you mentioned may need urgent help. Contact local emergency services or go to the nearest emergency department. I cannot diagnose you.' : 'I can explain general health information, but I cannot identify a disease or provide a diagnosis. If symptoms persist, worsen, or worry you, contact a qualified healthcare professional. I can also help explain hospital terms or appointment preparation.';
+        }
+
+        function sendDemoQuestion() {
+            const question = chatQuestion.value.trim();
+            if (!question) { showToast('Type a question first.'); chatQuestion.focus(); return; }
+            addChatBubble(question, 'user');
+            addChatBubble(demoHealthReply(question, chatLanguage.value), 'bot');
+            chatQuestion.value = '';
+        }
+
+        function selectPrompt(text) {
+            chatQuestion.value = text;
+            chatQuestion.focus();
+        }
+
+        document.getElementById('sendChat').addEventListener('click', sendDemoQuestion);
+        chatQuestion.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); sendDemoQuestion(); } });
+
+        const medicalDictionary = {
+            hypertension: { en: 'High blood pressure. It means the force of blood pushing against blood-vessel walls is often higher than recommended.', id: 'Tekanan darah tinggi. Artinya tekanan darah pada dinding pembuluh darah sering lebih tinggi dari yang dianjurkan.', ur: 'بلڈ پریشر کا اکثر معمول سے زیادہ ہونا۔', ms: 'Tekanan darah tinggi, iaitu tekanan darah yang kerap melebihi paras yang disyorkan.', ar: 'ارتفاع ضغط الدم؛ أي أن ضغط الدم يكون أعلى من المستوى الموصى به.' },
+            outpatient: { en: 'A person who receives care at a clinic or hospital without staying overnight.', id: 'Pasien yang mendapat layanan di klinik atau rumah sakit tanpa perlu menginap.', ur: 'ایسا مریض جو ہسپتال میں رات گزارے بغیر علاج یا معائنہ کرواتا ہے۔', ms: 'Pesakit yang menerima rawatan tanpa perlu bermalam di hospital.', ar: 'شخص يتلقى الرعاية في العيادة أو المستشفى دون المبيت فيه.' },
+            fasting: { en: 'Not eating or drinking certain things for a period. Follow the exact instructions from your clinic; rules differ by test or procedure.', id: 'Tidak makan atau minum hal tertentu selama waktu tertentu. Ikuti instruksi klinik karena aturannya berbeda untuk tiap pemeriksaan.', ur: 'ایک مقررہ وقت تک کچھ نہ کھانا یا نہ پینا۔ اپنے کلینک کی مخصوص ہدایات پر عمل کریں۔', ms: 'Tidak makan atau minum perkara tertentu untuk tempoh yang ditetapkan. Ikut arahan klinik kerana syarat berbeza mengikut ujian.', ar: 'الامتناع عن بعض الأطعمة أو المشروبات لفترة محددة. اتبع تعليمات العيادة لأن المتطلبات تختلف.' },
+            referral: { en: 'A recommendation or document that directs you to another doctor, clinic, or service for further care.', id: 'Rujukan atau dokumen yang mengarahkan Anda ke dokter, klinik, atau layanan lain untuk perawatan lanjutan.', ur: 'مزید معائنے یا علاج کے لیے کسی دوسرے ڈاکٹر یا کلینک کو بھیجنے کی ہدایت یا دستاویز۔', ms: 'Surat atau arahan untuk mendapatkan rawatan lanjut daripada doktor atau klinik lain.', ar: 'توصية أو وثيقة توجهك إلى طبيب أو عيادة أخرى للحصول على رعاية إضافية.' }
+        };
+
+        function explainMedicalTerm(term) {
+            const key = term.trim().toLowerCase();
+            const entry = medicalDictionary[key];
+            const lang = document.getElementById('chatLanguage').value;
+            const output = document.getElementById('translationOutput');
+            output.textContent = entry ? (entry[lang] || entry.en) : 'This demo dictionary does not include that phrase yet. Ask a healthcare professional to explain it in your preferred language. A real translation feature needs a reviewed medical-language service.';
+        }
+
+        document.getElementById('explainTerm').addEventListener('click', () => {
+            const term = document.getElementById('medicalTerm').value;
+            if (!term.trim()) { showToast('Enter a medical word or choose an example.'); return; }
+            explainMedicalTerm(term);
+        });
+        document.querySelectorAll('[data-term]').forEach(button => button.addEventListener('click', () => {
+            document.getElementById('medicalTerm').value = button.dataset.term;
+            explainMedicalTerm(button.dataset.term);
+        }));
+
+        const QC_KEYS = { requests: 'quickcareDemoRequests', notifications: 'quickcareDemoNotifications', slots: 'quickcareDemoReleasedSlots' };
+        function qcRead(key, fallback = []) { try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; } }
+        function qcWrite(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }
+
+        document.getElementById('simpleModeButton').addEventListener('click', () => {
+            document.body.classList.toggle('simple-mode');
+            const on = document.body.classList.contains('simple-mode');
+            document.getElementById('simpleModeButton').textContent = on ? 'A+' : 'Aa';
+            showToast(on ? 'Simple mode on: larger text and clearer cards.' : 'Simple mode off.');
+        });
+
+        function updateReadiness() {
+            const boxes = [...document.querySelectorAll('#readinessChecklist input[type="checkbox"]')];
+            const done = boxes.filter(x => x.checked).length;
+            document.getElementById('readinessProgress').textContent = done + ' of ' + boxes.length + ' complete';
+            document.getElementById('readinessStatus').textContent = done === boxes.length ? 'Ready to review' : 'In progress';
+        }
+        document.querySelectorAll('#readinessChecklist input').forEach(box => box.addEventListener('change', updateReadiness));
+
+        document.getElementById('cancelDemoAppointment').addEventListener('click', () => {
+            const released = { id: 'SLOT-' + Date.now(), department: 'Dental Clinic', date: '28 Oct', time: '11:00 AM', status: 'Released for staff review', createdAt: new Date().toISOString() };
+            const slots = qcRead(QC_KEYS.slots, []);
+            slots.unshift(released);
+            qcWrite(QC_KEYS.slots, slots);
+
+            const out = document.getElementById('cancelResult');
+            out.style.display = 'block';
+            out.textContent = 'Demo cancellation request recorded locally. The slot is now shown for staff review; no real appointment was cancelled.';
+
+            const notices = qcRead(QC_KEYS.notifications, []);
+            notices.unshift({ title: 'Cancellation request preview', message: 'Dental Clinic sample slot released for staff review.', createdAt: new Date().toISOString() });
+            qcWrite(QC_KEYS.notifications, notices);
+            showToast('Sample cancellation added to the staff workflow.');
+        });
+    </script>
+</body>
+</html>

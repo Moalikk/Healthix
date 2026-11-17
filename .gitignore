@@ -1,0 +1,16 @@
+# Backend (Laravel)
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/database/database.sqlite
+backend/storage/logs/*.log
+
+# Frontend
+frontend/node_modules/
+
+# Editor dan sistem
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
