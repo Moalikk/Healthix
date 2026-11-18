@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in | QUICKCARE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 16px; background: var(--bg); }
+        .auth-card { width: 100%; max-width: 400px; background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
+        .auth-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .auth-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .auth-tabs button { flex: 1; padding: 10px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; font-weight: 800; font-size: 12px; cursor: pointer; color: var(--ink); }
+        .auth-tabs button.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .auth-error { display: none; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 12px; padding: 10px 12px; font-size: 12px; margin-bottom: 14px; }
+    </style>
+</head>
+<body>
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-brand">
+            <span class="brand-icon">✚</span>
+            <div>
+                <strong style="font-size:16px">QUICKCARE</strong><br>
+                <span style="font-size:11px;color:var(--muted)">Hospital appointment portal</span>
+            </div>
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" id="tabLogin" class="active">Log in</button>
+            <button type="button" id="tabRegister">Create account</button>
+        </div>
+
+        <div class="auth-error" id="authError" role="alert"></div>
+
+        <form id="authForm">
+            <div class="field" id="nameField" style="display:none">
+                <label for="name">Full name</label>
+                <input id="name" autocomplete="name">
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" type="password" minlength="8" autocomplete="current-password" required>
+            </div>
+            <button class="btn btn-primary" type="submit" id="submitBtn" style="width:100%">Log in</button>
+        </form>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+    let mode = "login";
+
+    // Sudah login? langsung ke dashboard sesuai role
+    (function () {
+        const user = getUser();
+        if (getToken() && user) goTo(user.role === "staff" ? PAGES.staff : PAGES.citizen);
+    })();
+
+    const errorBox = document.getElementById("authError");
+
+    function setMode(newMode) {
+        mode = newMode;
+        const isRegister = mode === "register";
+        document.getElementById("tabLogin").classList.toggle("active", !isRegister);
+        document.getElementById("tabRegister").classList.toggle("active", isRegister);
+        document.getElementById("nameField").style.display = isRegister ? "block" : "none";
+        document.getElementById("name").required = isRegister;
+        document.getElementById("submitBtn").textContent = isRegister ? "Create account" : "Log in";
+        errorBox.style.display = "none";
+    }
+
+    document.getElementById("tabLogin").addEventListener("click", () => setMode("login"));
+    document.getElementById("tabRegister").addEventListener("click", () => setMode("register"));
+
+    document.getElementById("authForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorBox.style.display = "none";
+        const button = document.getElementById("submitBtn");
+        button.disabled = true;
+
+        const data = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+        };
+
+        try {
+            let result;
+            if (mode === "register") {
+                data.name = document.getElementById("name").value;
+                result = await register(data);
+            } else {
+                result = await login(data);
+            }
+            saveSession(result);
+            goTo(result.user.role === "staff" ? PAGES.staff : PAGES.citizen);
+        } catch (err) {
+            errorBox.textContent = err.message;
+            errorBox.style.display = "block";
+            button.disabled = false;
+        }
+    });
+</script>
+</body>
+</html>
