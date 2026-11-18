@@ -15,15 +15,19 @@
         <link href="css/owl.theme.default.min.css" rel="stylesheet">
         <link href="css/templatemo-medic-care.css" rel="stylesheet">
 
-        <!-- CUSTOM ULTRA MODERN STYLES -->
+        <!-- CUSTOM ULTRA MODERN STYLES (EMERALD GREEN THEME) -->
         <style>
             :root {
                 --bs-font-sans-serif: 'Plus Jakarta Sans', sans-serif;
+                --primary: #0a7e78;
+                --primary-dark: #063b3e;
+                --primary-light: #e6f4f1;
+                --accent-lime: #c3f574;
             }
             body {
                 font-family: 'Plus Jakarta Sans', sans-serif;
                 background-color: #f8fafc;
-                color: #0f172a;
+                color: #1e293b;
                 overflow-x: hidden;
             }
 
@@ -36,16 +40,17 @@
                 transition: all 0.3s ease;
             }
             .navbar-nav .nav-link {
-                color: #475569 !important;
-                font-weight: 500;
+                color: #64748b !important;
+                font-weight: 600;
                 transition: color 0.2s;
             }
             .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
-                color: #2563eb !important;
+                color: #063b3e !important;
             }
-            /* Hero Section Modern Gradient (Diperbarui dengan Selector Universal & !important) */
+
+            /* Hero Section Modern Gradient (Emerald Green) */
             #hero, .hero, header.hero, section.hero, div[id*="hero"] {
-                background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #38bdf8 100%) !important;
+                background: linear-gradient(135deg, #063b3e 0%, #095256 60%, #0a7e78 100%) !important;
                 padding-top: 8rem !important;
                 padding-bottom: 7rem !important;
                 position: relative;
@@ -62,8 +67,8 @@
             }
             .card:hover {
                 transform: translateY(-3px);
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                border-color: rgba(37, 99, 235, 0.2) !important;
+                box-shadow: 0 20px 25px -5px rgba(6, 59, 62, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                border-color: rgba(10, 126, 120, 0.3) !important;
             }
 
             /* Form Input & Select */
@@ -74,28 +79,30 @@
                 border: 1.5px solid #e2e8f0;
                 border-radius: 1rem;
                 transition: all 0.2s ease;
-                color: #0f172a;
+                color: #1e293b;
             }
             .form-control:focus, .form-select:focus {
                 background-color: #fff;
-                border-color: #2563eb;
-                box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+                border-color: #0a7e78;
+                box-shadow: 0 0 0 4px rgba(10, 126, 120, 0.12);
             }
 
             /* Premium Interactive Buttons */
             .btn-primary {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                background: linear-gradient(135deg, #063b3e 0%, #0a7e78 100%);
                 border: none;
                 border-radius: 1rem;
                 padding: 0.85rem 1.75rem;
-                font-weight: 600;
-                box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+                font-weight: 700;
+                color: #c3f574;
+                box-shadow: 0 10px 20px -5px rgba(6, 59, 62, 0.3);
                 transition: all 0.25s ease;
             }
             .btn-primary:hover {
-                background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+                background: linear-gradient(135deg, #0a7e78 100%, #063b3e 100%);
+                color: #ffffff;
                 transform: translateY(-2px);
-                box-shadow: 0 14px 24px -4px rgba(37, 99, 235, 0.5);
+                box-shadow: 0 14px 24px -4px rgba(6, 59, 62, 0.4);
             }
 
             /* Pulse Live Status Badge */
@@ -130,7 +137,7 @@
 
             #hero .badge, .hero .badge, div[class*="badge"], span.badge, .rounded-pill span {
                 background-color: #ffffff !important;
-                color: #0284c7 !important;
+                color: #063b3e !important;
                 font-weight: 700 !important;
                 padding: 4px 12px;
                 border-radius: 50rem;
@@ -138,13 +145,12 @@
             }
         </style>
     </head>
-    
-    <body id="top">
+<body id="top">
         <main>
             <!-- NAVIGATION BAR -->
             <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
                 <div class="container">
-                    <a class="navbar-brand mx-auto d-lg-none fw-bold text-primary" href="index.html">
+                    <a class="navbar-brand mx-auto d-lg-none fw-bold" style="color: #063b3e;" href="index.html">
                         HEALTHIX
                         <strong class="d-block text-muted" style="font-size: 9px; letter-spacing: 1px;">MEDICAL PLATFORM</strong>
                     </a>
@@ -163,7 +169,7 @@
                             </li>
                         
                             <a class="navbar-brand d-none d-lg-block text-center mx-4" href="index.html">
-                                <span class="fw-bold text-primary fs-5" style="letter-spacing: -0.5px;">HEALTHIX</span>
+                                <span class="fw-bold fs-5" style="color: #063b3e; letter-spacing: -0.5px;">HEALTHIX</span>
                                 <span class="d-block text-muted text-uppercase" style="font-size: 9px; letter-spacing: 2px;">Medical Platform</span>
                             </a>
 
@@ -189,7 +195,7 @@
                     <div class="row align-items-center g-5">
                         <div class="col-lg-7">
                             <div class="d-inline-flex align-items-center rounded-pill px-3 py-1 mb-3 small text-white shadow-sm" style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
-                                <span class="badge bg-info text-dark me-2 rounded-pill px-2">Yogyakarta</span>
+                                <span class="badge me-2 rounded-pill px-2" style="background-color: #c3f574 !important; color: #063b3e !important;">Yogyakarta</span>
                                 <span>Integrated Public Healthcare Portal</span>
                             </div>
                             <h1 class="fw-bold display-5 text-white mb-3" style="letter-spacing: -1px;">
@@ -199,7 +205,7 @@
                                 Check real-time outpatient department availability, view physician schedules, and reserve your digital queue token across partner public hospitals and Puskesmas seamlessly.
                             </p>
                             <div class="d-flex flex-wrap gap-3">
-                                <a href="#booking" class="btn btn-light text-primary fw-semibold px-4 py-3 rounded-3 shadow">
+                                <a href="#booking" class="btn fw-semibold px-4 py-3 rounded-3 shadow" style="background-color: #ffffff; color: #063b3e;">
                                     <i class="bi bi-calendar2-plus me-2"></i>Book Appointment
                                 </a>
                                 <a href="#queue-status" class="btn btn-outline-light fw-semibold px-4 py-3 rounded-3">
@@ -249,7 +255,7 @@
             <section id="doctors" class="py-5 bg-white border-bottom">
                 <div class="container py-4">
                     <div class="text-center mb-5">
-                        <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">Schedules</span>
+                        <span class="badge fw-semibold px-3 py-2 rounded-pill mb-2" style="background-color: #e6f4f1; color: #0a7e78;">Schedules</span>
                         <h2 class="fw-bold text-dark" style="letter-spacing: -0.5px;">Available Physicians & Schedules</h2>
                         <p class="text-muted small mx-auto" style="max-width: 520px;">
                             Check active outpatient clinic schedules across partner facilities before booking your appointment.
@@ -308,7 +314,7 @@
             <section id="booking" class="py-5 bg-light border-bottom">
                 <div class="container py-4">
                     <div class="text-center mb-5">
-                        <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">Online Registration</span>
+                        <span class="badge fw-semibold px-3 py-2 rounded-pill mb-2" style="background-color: #e6f4f1; color: #0a7e78;">Online Registration</span>
                         <h2 class="fw-bold text-dark" style="letter-spacing: -0.5px;">Book an Appointment</h2>
                         <p class="text-muted small mx-auto" style="max-width: 500px;">
                             Complete the form below to reserve your consultation slot and generate a digital queue token.
@@ -386,7 +392,7 @@
                 <div class="container py-2">
                     <div class="text-center mb-4">
                         <div class="d-inline-flex align-items-center justify-content-center px-4 py-2 rounded-pill bg-white shadow-sm border">
-                            <span class="badge bg-primary rounded-pill me-2 p-1">&nbsp;</span>
+                            <span class="badge rounded-pill me-2 p-1" style="background-color: #0a7e78 !important;">&nbsp;</span>
                             <span class="small fw-bold text-uppercase text-muted" style="letter-spacing: 1.5px; font-size: 0.75rem;">Healthix Infrastructure & Real-Time Security</span>
                         </div>
                     </div>
@@ -394,9 +400,9 @@
                     <div class="row g-4 justify-content-center">
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm rounded-4 p-4 bg-white position-relative overflow-hidden h-100">
-                                <div class="position-absolute top-0 start-0 h-100 bg-primary" style="width: 4px;"></div>
+                                <div class="position-absolute top-0 start-0 h-100" style="width: 4px; background-color: #0a7e78;"></div>
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded-3 bg-primary-subtle text-primary p-3 fs-3 me-3">
+                                    <div class="rounded-3 p-3 fs-3 me-3" style="background-color: #e6f4f1; color: #0a7e78;">
                                         <i class="bi bi-hospital"></i>
                                     </div>
                                     <div>
@@ -447,7 +453,7 @@
             <section id="queue-status" class="py-5 bg-white border-bottom">
                 <div class="container py-4">
                     <div class="text-center mb-4">
-                        <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">Live Tracking</span>
+                        <span class="badge fw-semibold px-3 py-2 rounded-pill mb-2" style="background-color: #e6f4f1; color: #0a7e78;">Live Tracking</span>
                         <h2 class="fw-bold text-dark" style="letter-spacing: -0.5px;">Check Queue Status</h2>
                         <p class="text-muted small mx-auto" style="max-width: 500px;">
                             Enter your Queue Token (e.g., A-104) or National ID (NIK) to monitor your current position and estimated waiting time.
@@ -467,7 +473,7 @@
                                 <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
                                     <div>
                                         <span class="text-muted small d-block">Queue Number</span>
-                                        <h2 class="fw-bold text-primary mb-0" id="resToken">A-001</h2>
+                                        <h2 class="fw-bold mb-0" style="color: #0a7e78;" id="resToken">A-001</h2>
                                     </div>
                                     <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold" id="resStatus">Booked</span>
                                 </div>
@@ -481,7 +487,7 @@
                                     <div class="col-5 text-muted">Appointment Date:</div>
                                     <div class="col-7 fw-bold text-end text-dark" id="resDate">-</div>
                                 </div>
-                                <div class="alert alert-primary border-0 d-flex align-items-center justify-content-between mb-0 rounded-3 py-3 px-3 small bg-primary-subtle text-primary">
+                                <div class="alert border-0 d-flex align-items-center justify-content-between mb-0 rounded-3 py-3 px-3 small" style="background-color: #e6f4f1; color: #063b3e;">
                                     <span class="fw-bold"><i class="bi bi-hourglass-split me-1"></i> Est. Waiting Time:</span>
                                     <span class="fw-bold" id="resWaitTime">± 15 Mins (2 ahead)</span>
                                 </div>
@@ -507,8 +513,8 @@
                             
                             <div class="bg-light border-0 rounded-4 p-4 mb-3">
                                 <span class="text-muted small d-block">Your Queue Token</span>
-                                <h1 class="display-4 fw-bold text-primary my-1" id="modalTokenNumber">A-105</h1>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 small mt-2" id="modalWaitEstimate">
+                                <h1 class="display-4 fw-bold my-1" style="color: #0a7e78;" id="modalTokenNumber">A-105</h1>
+                                <span class="badge rounded-pill px-3 py-1 small mt-2" style="background-color: #e6f4f1; color: #0a7e78;" id="modalWaitEstimate">
                                     Est. Wait: ± 20 mins
                                 </span>
                             </div>
@@ -555,7 +561,7 @@
                     <div class="col-lg-3">
                         <h6 class="fw-bold text-dark mb-2">Emergency Contact</h6>
                         <p class="text-muted small mb-1"><i class="bi bi-telephone me-1 text-danger"></i> Emergency Call: 112</p>
-                        <p class="text-muted small mb-0"><i class="bi bi-envelope me-1 text-primary"></i> support@healthix-diy.go.id</p>
+                        <p class="text-muted small mb-0"><i class="bi bi-envelope me-1" style="color: #0a7e78;"></i> support@healthix-diy.go.id</p>
                     </div>
                 </div>
                 <hr class="my-4 opacity-25">
