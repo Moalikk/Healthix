@@ -142,6 +142,89 @@
   });
   document.querySelector("#bookingForm button[type=submit]").textContent = "Send request";
 
-  loadDepartments();
+  // 8. Chat: kirim keluhan ke backend, tampilkan saran departemen
+  function openBookingFor(departmentId, complaint) {
+    openBooking(); // fungsi bawaan halaman
+    document.getElementById("demoDepartment").value = String(departmentId);
+    if (complaint) document.getElementById("demoNote").value = complaint;
+  }
+
+  function addSuggestionBubble(data, question) {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble bot";
+
+    const text = document.createElement("div");
+    text.textContent = data.confidence === "low"
+      ? data.reason + " (" + data.hospital_name + ")"
+      : "Suggested: " + data.department_name + " (" + data.hospital_name + "). " + data.reason + ".";
+    const note = document.createElement("div");
+    note.style.cssText = "font-size:10px;opacity:.75;margin-top:4px";
+    note.textContent = data.disclaimer;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-primary";
+    button.style.cssText = "margin-top:8px;padding:8px 12px";
+    button.textContent = "Book " + data.department_name + " →";
+    button.addEventListener("click", () => openBookingFor(data.department_id, question));
+
+    bubble.append(text, note, button);
+    document.getElementById("chatMessages").appendChild(bubble);
+    document.getElementById("chatMessages").scrollTop = 1e6;
+  }
+
+  async function sendChatMessage() {
+    const input = document.getElementById("chatQuestion");
+    const sendBtn = document.getElementById("sendChat");
+    const question = input.value.trim();
+    const lang = document.getElementById("chatLanguage").value;
+
+    if (question.length < 3) { showToast("Please describe your question or complaint."); input.focus(); return; }
+
+    addChatBubble(question, "user"); // fungsi bawaan halaman
+    input.value = "";
+    sendBtn.disabled = true;
+
+    try {
+      const { data } = await suggestDepartment(question);
+
+      if (data.emergency) {
+        // Teks darurat bawaan halaman sudah tersedia dalam 5 bahasa
+        addChatBubble(lang === "en" ? data.reason : demoHealthReply("chest pain", lang) + " (112)", "bot");
+      } else {
+        addSuggestionBubble(data, question);
+      }
+    } catch (err) {
+      addChatBubble("Sorry, I could not process that: " + err.message, "bot");
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+
+  // Dipasang di fase capture supaya menggantikan handler demo bawaan halaman
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("#sendChat")) return;
+    event.stopImmediatePropagation();
+    sendChatMessage();
+  }, true);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.target.id !== "chatQuestion" || event.key !== "Enter") return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    sendChatMessage();
+  }, true);
+
+  // Label kolom catatan sekarang berisi keluhan singkat
+  const noteLabel = document.querySelector('label[for="demoNote"]');
+  if (noteLabel) noteLabel.textContent = "Your complaint (short)";
+
+  // Buka form dengan departemen terpilih lewat link: citizen-dashboard.html?department=2
+  function openFromUrl() {
+    const id = new URLSearchParams(location.search).get("department");
+    if (id) openBookingFor(id, "");
+  }
+
+  loadDepartments().then(openFromUrl);
   loadAppointments();
 })();

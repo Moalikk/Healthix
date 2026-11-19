@@ -88,3 +88,6 @@ const staffConfirm = (id, data) => apiRequest("/staff/appointments/" + id + "/co
 const staffDecline = (id, note) => apiRequest("/staff/appointments/" + id + "/decline", { method: "PATCH", body: { staff_note: note } });
 const staffCall = (id) => apiRequest("/staff/appointments/" + id + "/call", { method: "PATCH" });
 const staffComplete = (id) => apiRequest("/staff/appointments/" + id + "/complete", { method: "PATCH" });
+
+// ---- Saran departemen (chat) ----
+const suggestDepartment = (message) => apiRequest("/suggest-department", { method: "POST", body: { message } });
