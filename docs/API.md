@@ -86,3 +86,21 @@ Tanpa token: 401.
 
 ## POST /logout
 Butuh Bearer token. Token dihapus, sehingga tidak bisa dipakai lagi.
+
+## GET /staff/appointments
+Khusus staff (Bearer token, role `staff`). Daftar semua permohonan, urgent di atas.
+Query opsional: `date`, `status`, `department_id`.
+
+## PATCH /staff/appointments/{id}/confirm
+Body: `doctor_id` (wajib, harus dokter di departemen yang sama), `priority` (`routine`/`urgent`), `staff_note`.
+Status `pending` menjadi `confirmed`, nomor antrean dibuat otomatis.
+Jika status bukan `pending`: 422.
+
+## PATCH /staff/appointments/{id}/decline
+Body: `staff_note` (wajib). `pending` menjadi `declined`.
+
+## PATCH /staff/appointments/{id}/call
+`confirmed` menjadi `called`, waktu panggilan dicatat.
+
+## PATCH /staff/appointments/{id}/complete
+`called` menjadi `completed`.
