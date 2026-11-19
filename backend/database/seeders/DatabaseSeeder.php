@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     public function run(): void
+    
         {
             $ts = ['created_at' => now(), 'updated_at' => now()];
 
@@ -44,5 +45,7 @@ class DatabaseSeeder extends Seeder
                 ['department_id' => $ids['Dermatology'], 'name' => 'Dr. Siti Rahma', 'specialization' => 'Dermatologist'] + $ts,
                 ['department_id' => $ids['Dental Clinic'], 'name' => 'Dr. Budi Santoso', 'specialization' => 'Dentist'] + $ts,
             ]);
+
+            $this->call(DemoDataSeeder::class);
         }
 }
