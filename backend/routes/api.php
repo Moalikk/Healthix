@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\StaffAppointmentController;
+use Illuminate\Support\Facades\DB;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index']);
@@ -31,6 +32,21 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/doctors', [DoctorController::class, 'index']);
+
+Route::get('/health', function () {
+    try {
+        DB::select('select 1');
+        $database = 'ok';
+    } catch (\Throwable $e) {
+        $database = 'down';
+    }
+
+    return response()->json([
+        'status'   => $database === 'ok' ? 'ok' : 'degraded',
+        'database' => $database,
+        'time'     => now()->toIso8601String(),
+    ], $database === 'ok' ? 200 : 503);
+});
 
 Route::get('/hospitals', [HospitalController::class, 'index']);
 

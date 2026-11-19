@@ -104,3 +104,12 @@ Body: `staff_note` (wajib). `pending` menjadi `declined`.
 
 ## PATCH /staff/appointments/{id}/complete
 `called` menjadi `completed`.
+
+## GET /health
+Cek apakah server dan database hidup. Tanpa login.
+
+Response 200:
+```json
+{ "status": "ok", "database": "ok", "time": "2026-11-19T13:20:00+07:00" }
+```
+Jika database mati: status 503, `"status": "degraded"`, `"database": "down"`.
