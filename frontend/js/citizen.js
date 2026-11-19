@@ -1,7 +1,3 @@
-// QuickCare - menghubungkan Citizen Dashboard dengan backend.
-// Dimuat SETELAH <script> bawaan halaman dan js/api.js.
-// Memakai showToast() dan closeBooking() yang sudah ada di halaman.
-
 (function () {
   // 1. Wajib login
   const user = getUser();
@@ -50,7 +46,7 @@
       result.data.forEach(d => {
         const opt = document.createElement("option");
         opt.value = d.id;
-        opt.textContent = d.name;
+        opt.textContent = d.name + " · " + d.hospital_name;
         select.appendChild(opt);
       });
     } catch (err) {
