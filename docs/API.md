@@ -113,3 +113,25 @@ Response 200:
 { "status": "ok", "database": "ok", "time": "2026-11-19T13:20:00+07:00" }
 ```
 Jika database mati: status 503, `"status": "degraded"`, `"database": "down"`.
+
+## POST /suggest-department
+Perlu login. Menyarankan departemen dari keluhan (bukan diagnosis).
+
+Body: `{ "message": "kulit saya gatal" }` (3-500 karakter)
+
+Response 200:
+```json
+{
+  "data": {
+    "emergency": false,
+    "department_id": 2,
+    "department_name": "Dermatology",
+    "hospital_name": "Sample General Hospital",
+    "matched": ["gatal", "kulit"],
+    "confidence": "high",
+    "reason": "Matched: gatal, kulit",
+    "disclaimer": "This is a suggestion only, not a medical diagnosis."
+  }
+}
+```
+Jika terdeteksi kata darurat: `emergency: true`, `department_id: null`, dan `reason` berisi arahan ke 112 / IGD.
