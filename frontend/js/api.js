@@ -1,6 +1,3 @@
-// QuickCare - helper untuk memanggil backend Laravel.
-// Dipakai oleh login.html dan js/citizen.js.
-
 const API_BASE = "http://127.0.0.1:8000/api";
 
 // Nama halaman. Kalau file diganti nama, ubah di sini saja.
@@ -83,3 +80,11 @@ const logout = () => apiRequest("/logout", { method: "POST" });
 const getDepartments = () => apiRequest("/departments", { auth: false });
 const getMyAppointments = () => apiRequest("/appointments");
 const createAppointment = (data) => apiRequest("/appointments", { method: "POST", body: data });
+
+// ---- Staff ----
+const getDoctors = (departmentId) => apiRequest("/doctors?department_id=" + departmentId, { auth: false });
+const getStaffAppointments = () => apiRequest("/staff/appointments");
+const staffConfirm = (id, data) => apiRequest("/staff/appointments/" + id + "/confirm", { method: "PATCH", body: data });
+const staffDecline = (id, note) => apiRequest("/staff/appointments/" + id + "/decline", { method: "PATCH", body: { staff_note: note } });
+const staffCall = (id) => apiRequest("/staff/appointments/" + id + "/call", { method: "PATCH" });
+const staffComplete = (id) => apiRequest("/staff/appointments/" + id + "/complete", { method: "PATCH" });

@@ -10,13 +10,16 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\StaffAppointmentController;
 
 Route::middleware('auth:sanctum')->group(function () {
-    // ...route /me dan /logout yang sudah ada...
     Route::get('/appointments', [AppointmentController::class, 'index']);
     Route::post('/appointments', [AppointmentController::class, 'store']);
 });
 
 Route::middleware(['auth:sanctum', 'staff'])->prefix('staff')->group(function () {
     Route::get('/appointments', [StaffAppointmentController::class, 'index']);
+    Route::patch('/appointments/{id}/confirm', [StaffAppointmentController::class, 'confirm']);
+    Route::patch('/appointments/{id}/decline', [StaffAppointmentController::class, 'decline']);
+    Route::patch('/appointments/{id}/call', [StaffAppointmentController::class, 'call']);
+    Route::patch('/appointments/{id}/complete', [StaffAppointmentController::class, 'complete']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);

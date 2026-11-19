@@ -35,4 +35,83 @@ class StaffAppointmentController extends Controller
 
         return response()->json(['data' => $appointments]);
     }
+
+    // Staff menyetujui: pilih dokter, atur prioritas, beri nomor antrean
+    public function confirm(Request $request, $id)
+    {
+        $data = $request->validate([
+            'doctor_id'  => 'required|exists:doctors,id',
+            'priority'   => 'nullable|in:routine,urgent',
+            'staff_note' => 'nullable|string|max:500',
+        ]);
+
+        return DB::transaction(function () use ($id, $data) {
+            $appt = DB::table('appointments')->where('id', $id)->lockForUpdate()->first();
+
+            if (!$appt) {
+                return response()->json(['message' => 'Appointment not found'], 404);
+            }
+            if ($appt->status !== 'pending') {
+                return response()->json(['message' => 'Only pending requests can be confirmed'], 422);
+            }
+
+            $sameDepartment = DB::table('doctors')
+                ->where('id', $data['doctor_id'])
+                ->where('department_id', $appt->department_id)
+                ->exists();
+            if (!$sameDepartment) {
+                return response()->json(['message' => 'Doctor is not in this department'], 422);
+            }
+
+            // Nomor antrean berikutnya untuk departemen + tanggal yang sama
+            $last = DB::table('appointments')
+                ->where('appointment_date', $appt->appointment_date)
+                ->where('department_id', $appt->department_id)
+                ->whereNotNull('queue_number')
+                ->lockForUpdate()
+                ->max('queue_number');
+
+            DB::table('appointments')->where('id', $id)->update([
+                'doctor_id'    => $data['doctor_id'],
+                'priority'     => $data['priority'] ?? $appt->priority,
+                'staff_note'   => $data['staff_note'] ?? null,
+                'queue_number' => ($last ?? 0) + 1,
+                'status'       => 'confirmed',
+                'updated_at'   => now(),
+            ]);
+
+            return response()->json(['data' => DB::table('appointments')->where('id', $id)->first()]);
+        });
+    }
+
+    public function decline(Request $request, $id)
+    {
+        $data = $request->validate(['staff_note' => 'required|string|max:500']);
+        return $this->changeStatus($id, 'pending', 'declined', ['staff_note' => $data['staff_note']]);
+    }
+
+    public function call($id)
+    {
+        return $this->changeStatus($id, 'confirmed', 'called', ['called_at' => now()]);
+    }
+
+    public function complete($id)
+    {
+        return $this->changeStatus($id, 'called', 'completed');
+    }
+
+    // Mengubah status hanya jika status saat ini sesuai
+    private function changeStatus($id, $from, $to, array $extra = [])
+    {
+        $updated = DB::table('appointments')
+            ->where('id', $id)
+            ->where('status', $from)
+            ->update(array_merge($extra, ['status' => $to, 'updated_at' => now()]));
+
+        if (!$updated) {
+            return response()->json(['message' => "Appointment must be '$from' to become '$to'"], 422);
+        }
+
+        return response()->json(['data' => DB::table('appointments')->where('id', $id)->first()]);
+    }
 }
