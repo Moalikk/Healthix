@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\QueueService;
 
 class StaffAppointmentController extends Controller
 {
     public function index(Request $request)
     {
+        QueueService::skipLate();
+
         $appointments = DB::table('appointments')
             ->join('users', 'appointments.user_id', '=', 'users.id')
             ->join('departments', 'appointments.department_id', '=', 'departments.id')

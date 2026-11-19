@@ -22,3 +22,7 @@ php artisan key:generate
 (set DB_DATABASE in .env, then create the database)
 php artisan migrate
 php artisan serve
+
+## Demo accounts
+- staff@quickcare.test dan citizen@quickcare.test
+- password123

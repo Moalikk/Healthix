@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\QueueService;
 
 class AppointmentController extends Controller
 {
     // Citizen melihat permohonan miliknya sendiri
     public function index(Request $request)
     {
+        QueueService::skipLate();
+
         $appointments = DB::table('appointments')
             ->join('departments', 'appointments.department_id', '=', 'departments.id')
             ->where('appointments.user_id', $request->user()->id)
