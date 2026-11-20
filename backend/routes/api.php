@@ -1,39 +1,21 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\DepartmentController;
-use App\Http\Controllers\Api\HospitalController;
-use App\Http\Controllers\Api\DoctorController;
-use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\HospitalController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\StaffAppointmentController;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\SuggestionController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/appointments', [AppointmentController::class, 'index']);
-    Route::post('/appointments', [AppointmentController::class, 'store']);
-});
-
-Route::middleware(['auth:sanctum', 'staff'])->prefix('staff')->group(function () {
-    Route::get('/appointments', [StaffAppointmentController::class, 'index']);
-    Route::patch('/appointments/{id}/confirm', [StaffAppointmentController::class, 'confirm']);
-    Route::patch('/appointments/{id}/decline', [StaffAppointmentController::class, 'decline']);
-    Route::patch('/appointments/{id}/call', [StaffAppointmentController::class, 'call']);
-    Route::patch('/appointments/{id}/complete', [StaffAppointmentController::class, 'complete']);
-});
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::get('/doctors', [DoctorController::class, 'index']);
-
+/*
+|--------------------------------------------------------------------------
+| Public (tanpa login)
+|--------------------------------------------------------------------------
+*/
 Route::get('/health', function () {
     try {
         DB::select('select 1');
@@ -49,12 +31,41 @@ Route::get('/health', function () {
     ], $database === 'ok' ? 200 : 503);
 });
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
 Route::get('/hospitals', [HospitalController::class, 'index']);
-
 Route::get('/departments', [DepartmentController::class, 'index']);
+Route::get('/doctors', [DoctorController::class, 'index']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| Citizen & staff (perlu login)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::post('/suggest-department', [SuggestionController::class, 'suggest']);
+    Route::get('/appointments', [AppointmentController::class, 'index']);
+    Route::post('/appointments', [AppointmentController::class, 'store']);
+
+    Route::post('/suggest-department', [SuggestionController::class, 'suggest']);
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::patch('/notifications/read-all', [NotificationController::class, 'readAll']);
+    Route::patch('/notifications/{id}/read', [NotificationController::class, 'read']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Staff saja (login + role staff)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'staff'])->prefix('staff')->group(function () {
+    Route::get('/appointments', [StaffAppointmentController::class, 'index']);
+    Route::patch('/appointments/{id}/confirm', [StaffAppointmentController::class, 'confirm']);
+    Route::patch('/appointments/{id}/decline', [StaffAppointmentController::class, 'decline']);
+    Route::patch('/appointments/{id}/call', [StaffAppointmentController::class, 'call']);
+    Route::patch('/appointments/{id}/complete', [StaffAppointmentController::class, 'complete']);
+});

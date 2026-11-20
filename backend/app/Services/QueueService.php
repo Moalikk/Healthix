@@ -37,6 +37,13 @@ class QueueService
                         'skip_count' => $skips,
                         'updated_at' => now(),
                     ]);
+
+                    Notifier::send(
+                        $a->user_id,
+                        $a->id,
+                        'Request marked as missed',
+                        Notifier::label($a) . '. You did not arrive in time. Please submit a new request.'
+                    );
                     return;
                 }
 
@@ -54,6 +61,13 @@ class QueueService
                     'skip_count'   => $skips,
                     'updated_at'   => now(),
                 ]);
+
+                Notifier::send(
+                    $a->user_id,
+                    $a->id,
+                    'Moved to the end of the queue',
+                    Notifier::label($a) . '. You did not arrive within ' . self::LATE_MINUTES . ' minutes. New queue number: #' . ($last + 1) . '.'
+                );
             });
         }
     }
