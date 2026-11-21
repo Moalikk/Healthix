@@ -58,7 +58,7 @@ erDiagram
         bigint doctor_id FK "null until confirmed"
         date appointment_date
         text complaint
-        string priority "normal | urgent"
+        string priority "routine | urgent"
         string status "pending confirmed called completed declined missed"
         text staff_note
         int queue_number

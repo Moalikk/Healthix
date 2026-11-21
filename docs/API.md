@@ -2,6 +2,8 @@
 
 Base URL (local): http://127.0.0.1:8000/api
 
+Semua endpoint bertanda "Bearer token" memakai header `Authorization: Bearer <token>` dan `Accept: application/json`.
+
 ## GET /departments
 Returns the list of departments with their hospital name.
 
@@ -42,9 +44,11 @@ Response 200:
 ```
 
 ## GET /doctors
-Returns active doctors with their department name. Optional query: `department_id`.
+Dokter aktif beserta nama departemen. Query opsional:
+- `department_id`
+- `date` (format `YYYY-MM-DD`): tandai dokter yang cuti pada tanggal itu. Format salah: 422.
 
-Example: /doctors?department_id=2
+Example: /doctors?department_id=2&date=2026-11-22
 
 Response 200:
 ```json
@@ -52,14 +56,18 @@ Response 200:
   "data": [
     {
       "id": 2,
-      "name": "Dr. Siti Rahma",
+      "name": "dr. Siti Aminah",
       "specialization": "Dermatologist",
       "photo_url": null,
-      "department_name": "Dermatology"
+      "department_name": "Dermatology",
+      "is_available": false,
+      "leave_reason": "Annual leave"
     }
   ]
 }
-``` 
+```
+Tanpa `date`, semua dokter `is_available: true`. Jika cuti tanpa alasan, `leave_reason` bernilai "On leave".
+
 ## POST /register
 Membuat akun citizen baru dan langsung mengembalikan token.
 
@@ -94,16 +102,65 @@ Query opsional: `date`, `status`, `department_id`.
 ## PATCH /staff/appointments/{id}/confirm
 Body: `doctor_id` (wajib, harus dokter di departemen yang sama), `priority` (`routine`/`urgent`), `staff_note`.
 Status `pending` menjadi `confirmed`, nomor antrean dibuat otomatis.
-Jika status bukan `pending`: 422.
+Aturan (422 jika dilanggar):
+- status harus `pending`
+- dokter harus aktif dan satu departemen dengan permohonan
+- dokter tidak boleh cuti pada tanggal kunjungan (tabel `doctor_leaves`)
+
+Jika gagal, status tetap `pending` dan citizen tidak mendapat notifikasi.
+Jika berhasil, citizen mendapat notifikasi.
 
 ## PATCH /staff/appointments/{id}/decline
-Body: `staff_note` (wajib). `pending` menjadi `declined`.
+Body: `staff_note` (wajib, alasan penolakan). `pending` menjadi `declined`. Citizen mendapat notifikasi.
 
 ## PATCH /staff/appointments/{id}/call
-`confirmed` menjadi `called`, waktu panggilan dicatat.
+`confirmed` menjadi `called`, waktu panggilan dicatat. Citizen mendapat notifikasi.
+
+Aturan telat: pasien `called` lebih dari 10 menit otomatis kembali ke `confirmed` dengan nomor antrean terakhir dan `skip_count` +1. Setelah 2 kali skip, status `missed`. Dicek saat daftar permohonan dibuka.
 
 ## PATCH /staff/appointments/{id}/complete
 `called` menjadi `completed`.
+
+## GET /appointments
+Butuh Bearer token. Daftar permohonan milik user yang login (terbaru dulu).
+
+Response 200:
+```json
+{ "data": [ { "id": 1, "appointment_date": "2026-11-22", "status": "pending", "queue_number": null, "department_name": "Dermatology", "hospital_name": "Sample General Hospital", "doctor_name": null } ] }
+```
+
+## POST /appointments
+Butuh Bearer token. Membuat permohonan baru dengan status `pending`.
+
+Body:
+```json
+{ "department_id": 2, "appointment_date": "2026-11-22", "complaint": "kulit gatal" }
+```
+- `department_id`: wajib, harus ada
+- `appointment_date`: wajib, hari ini atau setelahnya
+- `complaint`: opsional, maks 1000 karakter
+
+Response 201: `{ "data": { ...permohonan } }`. Validasi gagal: 422.
+
+## GET /notifications
+Butuh Bearer token. 30 notifikasi terbaru milik user.
+
+Response 200:
+```json
+{
+  "data": [
+    { "id": 1, "appointment_id": 1, "title": "Request confirmed", "message": "...", "read_at": null, "created_at": "2026-11-21 10:00:00" }
+  ],
+  "unread_count": 1
+}
+```
+Judul yang dipakai: Request confirmed, Request declined, It's your turn, Moved to the end of the queue, Request marked as missed.
+
+## PATCH /notifications/{id}/read
+Butuh Bearer token. Menandai satu notifikasi sudah dibaca. Bukan milik user atau tidak ada: 404.
+
+## PATCH /notifications/read-all
+Butuh Bearer token. Menandai semua notifikasi user sudah dibaca.
 
 ## GET /health
 Cek apakah server dan database hidup. Tanpa login.
@@ -115,7 +172,7 @@ Response 200:
 Jika database mati: status 503, `"status": "degraded"`, `"database": "down"`.
 
 ## POST /suggest-department
-Perlu login. Menyarankan departemen dari keluhan (bukan diagnosis).
+Butuh Bearer token. Menyarankan departemen dari keluhan (bukan diagnosis).
 
 Body: `{ "message": "kulit saya gatal" }` (3-500 karakter)
 
