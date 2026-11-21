@@ -225,6 +225,88 @@
     if (id) openBookingFor(id, "");
   }
 
+  // 9. Notifikasi dari backend + lencana di ikon lonceng
+  const NOTICE_ICONS = {
+    "Request confirmed": "✓",
+    "Request declined": "✕",
+    "It's your turn": "!",
+    "Moved to the end of the queue": "↻",
+    "Request marked as missed": "✕",
+    "Visit completed": "✓",
+  };
+
+  const bell = document.getElementById("notificationButton");
+  bell.style.position = "relative";
+  const badge = document.createElement("span");
+  badge.style.cssText = "position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;" +
+    "border-radius:9px;background:#dc2626;color:#fff;font-size:10px;font-weight:800;" +
+    "display:none;align-items:center;justify-content:center";
+  bell.append(badge);
+
+  const noticePill = document.querySelector("#notifications .pill");
+  if (noticePill) noticePill.textContent = "LIVE";
+  const noticeNote = document.querySelector("#notifications > .modal-note");
+  if (noticeNote) noticeNote.textContent = "Updates appear here when staff confirm, decline or call your request.";
+
+  function formatTime(value) {
+    const date = new Date(String(value).replace(" ", "T"));
+    return isNaN(date) ? "" : date.toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  }
+
+  async function loadNotifications() {
+    const panel = document.getElementById("notificationList");
+    try {
+      const result = await getNotifications();
+
+      badge.textContent = result.unread_count > 99 ? "99+" : result.unread_count;
+      badge.style.display = result.unread_count > 0 ? "flex" : "none";
+
+      if (result.data.length === 0) {
+        panel.innerHTML = '<p class="modal-note">No notifications yet.</p>';
+        return;
+      }
+
+      panel.innerHTML = "";
+      result.data.forEach(n => {
+        const item = document.createElement("article");
+        item.className = "notification-item";
+        item.innerHTML = '<span class="notice-icon"></span><div><strong></strong><p></p><p style="margin-top:4px;font-size:10px"></p></div>';
+        item.querySelector(".notice-icon").textContent = NOTICE_ICONS[n.title] || "ⓘ";
+        item.querySelector("strong").textContent = n.title;
+        const lines = item.querySelectorAll("p");
+        lines[0].textContent = n.message;
+        lines[1].textContent = formatTime(n.created_at);
+
+        if (!n.read_at) {
+          // Belum dibaca: disorot, klik untuk menandai terbaca
+          item.style.cssText = "border-color:var(--primary);background:var(--primary-light);cursor:pointer";
+          item.addEventListener("click", async () => {
+            try { await markNotificationRead(n.id); } catch {}
+            loadNotifications();
+          });
+        }
+        panel.appendChild(item);
+      });
+    } catch (err) {
+      // Diam saja: fungsi ini juga dipanggil otomatis tiap 30 detik
+    }
+  }
+
+  // Klik lonceng: gulir ke daftar notifikasi, lalu tandai semua terbaca
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("#notificationButton")) return;
+    event.stopImmediatePropagation();
+    document.getElementById("notifications").scrollIntoView({ behavior: "smooth" });
+    setTimeout(async () => {
+      try { await markAllNotificationsRead(); } catch {}
+      loadNotifications();
+    }, 1500);
+  }, true);
+
+  // Segarkan otomatis tiap 30 detik (status permohonan + notifikasi)
+  setInterval(() => { loadAppointments(); loadNotifications(); }, 30000);
+
   loadDepartments().then(openFromUrl);
   loadAppointments();
+  loadNotifications();
 })();

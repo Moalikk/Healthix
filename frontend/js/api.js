@@ -91,3 +91,8 @@ const staffComplete = (id) => apiRequest("/staff/appointments/" + id + "/complet
 
 // ---- Saran departemen (chat) ----
 const suggestDepartment = (message) => apiRequest("/suggest-department", { method: "POST", body: { message } });
+
+// ---- Notifikasi ----
+const getNotifications = () => apiRequest("/notifications");
+const markNotificationRead = (id) => apiRequest("/notifications/" + id + "/read", { method: "PATCH" });
+const markAllNotificationsRead = () => apiRequest("/notifications/read-all", { method: "PATCH" });
