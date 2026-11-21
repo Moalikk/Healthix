@@ -225,7 +225,7 @@
     if (id) openBookingFor(id, "");
   }
 
-  // 9. Notifikasi dari backend + lencana di ikon lonceng
+  // 9. Notifikasi: ikon lonceng + dropdown + daftar lengkap di bawah
   const NOTICE_ICONS = {
     "Request confirmed": "✓",
     "Request declined": "✕",
@@ -235,8 +235,14 @@
     "Visit completed": "✓",
   };
 
+  // Ganti simbol lama dengan ikon lonceng yang jelas
   const bell = document.getElementById("notificationButton");
+  bell.innerHTML =
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>';
   bell.style.position = "relative";
+
   const badge = document.createElement("span");
   badge.style.cssText = "position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;" +
     "border-radius:9px;background:#dc2626;color:#fff;font-size:10px;font-weight:800;" +
@@ -248,63 +254,139 @@
   const noticeNote = document.querySelector("#notifications > .modal-note");
   if (noticeNote) noticeNote.textContent = "Updates appear here when staff confirm, decline or call your request.";
 
+  // Dropdown di bawah lonceng
+  const dropdown = document.createElement("div");
+  dropdown.style.cssText = "position:fixed;z-index:60;width:min(360px,92vw);max-height:440px;overflow:auto;" +
+    "background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 36px rgba(0,0,0,.2);" +
+    "padding:12px;display:none";
+  document.body.append(dropdown);
+
+  let latest = { data: [], unread_count: 0 };
+  let lastUnread = null;
+
   function formatTime(value) {
     const date = new Date(String(value).replace(" ", "T"));
     return isNaN(date) ? "" : date.toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
   }
 
-  async function loadNotifications() {
-    const panel = document.getElementById("notificationList");
-    try {
-      const result = await getNotifications();
+  function buildItem(n) {
+    const item = document.createElement("article");
+    item.className = "notification-item";
+    item.innerHTML = '<span class="notice-icon"></span><div><strong></strong><p></p><p style="margin-top:4px;font-size:10px"></p></div>';
+    item.querySelector(".notice-icon").textContent = NOTICE_ICONS[n.title] || "ⓘ";
+    item.querySelector("strong").textContent = n.title;
+    const lines = item.querySelectorAll("p");
+    lines[0].textContent = n.message;
+    lines[1].textContent = formatTime(n.created_at);
 
-      badge.textContent = result.unread_count > 99 ? "99+" : result.unread_count;
-      badge.style.display = result.unread_count > 0 ? "flex" : "none";
-
-      if (result.data.length === 0) {
-        panel.innerHTML = '<p class="modal-note">No notifications yet.</p>';
-        return;
-      }
-
-      panel.innerHTML = "";
-      result.data.forEach(n => {
-        const item = document.createElement("article");
-        item.className = "notification-item";
-        item.innerHTML = '<span class="notice-icon"></span><div><strong></strong><p></p><p style="margin-top:4px;font-size:10px"></p></div>';
-        item.querySelector(".notice-icon").textContent = NOTICE_ICONS[n.title] || "ⓘ";
-        item.querySelector("strong").textContent = n.title;
-        const lines = item.querySelectorAll("p");
-        lines[0].textContent = n.message;
-        lines[1].textContent = formatTime(n.created_at);
-
-        if (!n.read_at) {
-          // Belum dibaca: disorot, klik untuk menandai terbaca
-          item.style.cssText = "border-color:var(--primary);background:var(--primary-light);cursor:pointer";
-          item.addEventListener("click", async () => {
-            try { await markNotificationRead(n.id); } catch {}
-            loadNotifications();
-          });
-        }
-        panel.appendChild(item);
+    if (!n.read_at) {
+      item.style.cssText = "border-color:var(--primary);background:var(--primary-light);cursor:pointer";
+      item.addEventListener("click", async () => {
+        try { await markNotificationRead(n.id); } catch {}
+        loadNotifications();
       });
+    }
+    return item;
+  }
+
+  function renderNotifications() {
+    badge.textContent = latest.unread_count > 99 ? "99+" : latest.unread_count;
+    badge.style.display = latest.unread_count > 0 ? "flex" : "none";
+
+    // Daftar lengkap di bagian bawah halaman
+    const panel = document.getElementById("notificationList");
+    panel.innerHTML = "";
+    if (latest.data.length === 0) {
+      panel.innerHTML = '<p class="modal-note">No notifications yet.</p>';
+    } else {
+      latest.data.forEach(n => panel.appendChild(buildItem(n)));
+    }
+
+    // Dropdown (8 terbaru)
+    dropdown.innerHTML = "";
+    const head = document.createElement("div");
+    head.style.cssText = "display:flex;justify-content:space-between;align-items:center;margin-bottom:10px";
+    head.innerHTML = '<strong style="font-size:13px">Notifications</strong>';
+    const markAll = document.createElement("button");
+    markAll.type = "button";
+    markAll.textContent = "Mark all as read";
+    markAll.style.cssText = "border:0;background:none;color:var(--primary-dark);font-weight:800;font-size:11px;cursor:pointer";
+    markAll.addEventListener("click", async () => {
+      try { await markAllNotificationsRead(); } catch {}
+      loadNotifications();
+    });
+    head.append(markAll);
+    dropdown.append(head);
+
+    const list = document.createElement("div");
+    list.style.cssText = "display:grid;gap:8px";
+    if (latest.data.length === 0) {
+      list.innerHTML = '<p class="modal-note" style="margin:0">No notifications yet. You will see updates here when staff review your requests.</p>';
+    } else {
+      latest.data.slice(0, 8).forEach(n => list.appendChild(buildItem(n)));
+    }
+    dropdown.append(list);
+
+    const viewAll = document.createElement("button");
+    viewAll.type = "button";
+    viewAll.textContent = "View all";
+    viewAll.style.cssText = "margin-top:10px;width:100%;border:0;background:none;color:var(--primary-dark);font-weight:800;font-size:11px;cursor:pointer";
+    viewAll.addEventListener("click", () => {
+      closeDropdown();
+      document.getElementById("notifications").scrollIntoView({ behavior: "smooth" });
+    });
+    dropdown.append(viewAll);
+  }
+
+  async function loadNotifications() {
+    try {
+      latest = await getNotifications();
+
+      // Ada notifikasi baru sejak pengecekan terakhir -> beri tahu lewat toast
+      if (lastUnread !== null && latest.unread_count > lastUnread) {
+        const newest = latest.data.find(n => !n.read_at);
+        if (newest) showToast("New notification: " + newest.title);
+      }
+      lastUnread = latest.unread_count;
+
+      renderNotifications();
     } catch (err) {
-      // Diam saja: fungsi ini juga dipanggil otomatis tiap 30 detik
+      // Diam saja: fungsi ini juga dipanggil otomatis
     }
   }
 
-  // Klik lonceng: gulir ke daftar notifikasi, lalu tandai semua terbaca
+  function openDropdown() {
+    const rect = bell.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + 8) + "px";
+    dropdown.style.right = Math.max(8, window.innerWidth - rect.right) + "px";
+    dropdown.style.display = "block";
+  }
+
+  function closeDropdown() {
+    dropdown.style.display = "none";
+  }
+
+  // Klik lonceng: buka/tutup dropdown (menggantikan handler demo bawaan halaman)
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("#notificationButton")) return;
-    event.stopImmediatePropagation();
-    document.getElementById("notifications").scrollIntoView({ behavior: "smooth" });
-    setTimeout(async () => {
-      try { await markAllNotificationsRead(); } catch {}
-      loadNotifications();
-    }, 1500);
+    if (event.target.closest("#notificationButton")) {
+      event.stopImmediatePropagation();
+      dropdown.style.display === "block" ? closeDropdown() : openDropdown();
+      return;
+    }
+    if (!dropdown.contains(event.target)) closeDropdown();
   }, true);
 
-  // Segarkan otomatis tiap 30 detik (status permohonan + notifikasi)
-  setInterval(() => { loadAppointments(); loadNotifications(); }, 30000);
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeDropdown(); });
+
+  // Segarkan otomatis tiap 10 detik (hanya saat tab terlihat)
+  setInterval(() => {
+    if (document.hidden) return;
+    loadAppointments();
+    loadNotifications();
+  }, 10000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) { loadAppointments(); loadNotifications(); }
+  });
 
   loadDepartments().then(openFromUrl);
   loadAppointments();

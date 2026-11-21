@@ -82,7 +82,9 @@ const getMyAppointments = () => apiRequest("/appointments");
 const createAppointment = (data) => apiRequest("/appointments", { method: "POST", body: data });
 
 // ---- Staff ----
-const getDoctors = (departmentId) => apiRequest("/doctors?department_id=" + departmentId, { auth: false });
+// date (opsional, YYYY-MM-DD): tandai dokter yang cuti pada tanggal itu
+const getDoctors = (departmentId, date) =>
+  apiRequest("/doctors?department_id=" + departmentId + (date ? "&date=" + date : ""), { auth: false });
 const getStaffAppointments = () => apiRequest("/staff/appointments");
 const staffConfirm = (id, data) => apiRequest("/staff/appointments/" + id + "/confirm", { method: "PATCH", body: data });
 const staffDecline = (id, note) => apiRequest("/staff/appointments/" + id + "/decline", { method: "PATCH", body: { staff_note: note } });

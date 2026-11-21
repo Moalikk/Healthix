@@ -27,5 +27,23 @@ class DemoDataSeeder extends Seeder
                 ] + $ts
             );
         }
+
+        // Contoh dokter cuti (untuk mendemokan penolakan konfirmasi)
+        $tomorrow = now()->addDay()->toDateString();
+        $leaves = [
+            ['dr. Bayu Pratama', 'Medical conference'],
+            ['dr. Siti Aminah', 'Annual leave'],
+        ];
+
+        foreach ($leaves as [$doctorName, $reason]) {
+            $doctorId = DB::table('doctors')->where('name', $doctorName)->value('id');
+            if ($doctorId) {
+                DB::table('doctor_leaves')->insert([
+                    'doctor_id'  => $doctorId,
+                    'leave_date' => $tomorrow,
+                    'reason'     => $reason,
+                ] + $ts);
+            }
+        }
     }
 }

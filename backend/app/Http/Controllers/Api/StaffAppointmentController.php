@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use App\Services\Notifier;
 use App\Services\QueueService;
 
@@ -26,6 +28,7 @@ class StaffAppointmentController extends Controller
             ->select(
                 'appointments.id',
                 'appointments.appointment_date',
+                'appointments.department_id',
                 'appointments.complaint',
                 'appointments.priority',
                 'appointments.status',
@@ -44,7 +47,7 @@ class StaffAppointmentController extends Controller
     public function confirm(Request $request, $id)
     {
         $data = $request->validate([
-            'doctor_id'  => 'required|exists:doctors,id',
+            'doctor_id'  => ['required', Rule::exists('doctors', 'id')->where('is_active', true)],
             'priority'   => 'nullable|in:routine,urgent',
             'staff_note' => 'nullable|string|max:500',
         ]);
@@ -65,6 +68,19 @@ class StaffAppointmentController extends Controller
                 ->exists();
             if (!$sameDepartment) {
                 return response()->json(['message' => 'Doctor is not in this department'], 422);
+            }
+
+            // Dokter yang sedang cuti pada tanggal kunjungan tidak boleh dipilih
+            $leave = DB::table('doctor_leaves')
+                ->where('doctor_id', $data['doctor_id'])
+                ->where('leave_date', $appt->appointment_date)
+                ->first();
+            if ($leave) {
+                return response()->json([
+                    'message' => 'This doctor is on leave on ' . Carbon::parse($appt->appointment_date)->format('j M Y')
+                        . ($leave->reason ? ' (' . $leave->reason . ')' : '')
+                        . '. Choose another doctor or decline the request.',
+                ], 422);
             }
 
             // Nomor antrean berikutnya untuk departemen + tanggal yang sama

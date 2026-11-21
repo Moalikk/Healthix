@@ -118,6 +118,7 @@
       <div id="dlgDoctorBox"><label style="font-size:11px;font-weight:800">Assign doctor</label>
         <select id="dlgDoctor" style="width:100%;padding:10px;margin:6px 0 12px;border:1.5px solid var(--line);border-radius:12px"></select>
         <label style="display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:12px"><input type="checkbox" id="dlgUrgent"> Mark as urgent (staff decision)</label></div>
+      <div id="dlgWarning" style="display:none;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;border-radius:12px;padding:10px 12px;font-size:12px;margin-bottom:12px"></div>
       <label id="dlgNoteLabel" style="font-size:11px;font-weight:800"></label>
       <textarea id="dlgNote" rows="3" style="width:100%;padding:10px;margin:6px 0 14px;border:1.5px solid var(--line);border-radius:12px"></textarea>
       <div class="actions" style="justify-content:flex-end">
@@ -140,12 +141,31 @@
     $("dlgNote").required = !isConfirm;
     $("dlgOk").textContent = isConfirm ? "Confirm" : "Decline";
 
+    $("dlgWarning").style.display = "none";
+    $("dlgOk").disabled = false;
+
     if (isConfirm) {
       try {
-        const doctors = (await getDoctors(r.department_id)).data;
-        $("dlgDoctor").innerHTML = doctors.length
-          ? doctors.map(d => `<option value="${d.id}">${esc(d.name)}${d.specialization ? " · " + esc(d.specialization) : ""}</option>`).join("")
-          : '<option value="">No doctor in this department</option>';
+        // Kirim tanggal kunjungan supaya dokter yang cuti ditandai
+        const doctors = (await getDoctors(r.department_id, r.appointment_date)).data;
+        const available = doctors.filter(d => d.is_available);
+
+        $("dlgDoctor").innerHTML = doctors.map(d =>
+          `<option value="${d.id}" ${d.is_available ? "" : "disabled"}>${esc(d.name)}${d.specialization ? " · " + esc(d.specialization) : ""}${d.is_available ? "" : " — on leave (" + esc(d.leave_reason) + ")"}</option>`
+        ).join("");
+
+        if (doctors.length === 0) {
+          $("dlgWarning").textContent = "This department has no active doctor. You cannot confirm this request. Please decline it with a reason.";
+        } else if (available.length === 0) {
+          $("dlgWarning").textContent = "No doctor is available on " + r.appointment_date + ". You cannot confirm this request. Please decline it and ask the citizen to choose another date.";
+        } else {
+          $("dlgDoctor").value = available[0].id;
+        }
+
+        if (available.length === 0) {
+          $("dlgWarning").style.display = "block";
+          $("dlgOk").disabled = true;
+        }
       } catch (err) { toast(err.message); return; }
     }
     dialog.showModal();
@@ -190,4 +210,8 @@
   $("refreshButton").addEventListener("click", () => reload(true));
 
   reload();
+
+  // Segarkan otomatis tiap 10 detik (hanya saat tab terlihat dan dialog tertutup)
+  setInterval(() => { if (!document.hidden && !dialog.open) reload(); }, 10000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) reload(); });
 })();
