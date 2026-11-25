@@ -31,8 +31,8 @@ Route::get('/health', function () {
     ], $database === 'ok' ? 200 : 503);
 });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:register');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
 
 Route::get('/hospitals', [HospitalController::class, 'index']);
 Route::get('/departments', [DepartmentController::class, 'index']);
@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/appointments', [AppointmentController::class, 'index']);
-    Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::post('/appointments', [AppointmentController::class, 'store'])->middleware('throttle:booking');
 
     Route::post('/suggest-department', [SuggestionController::class, 'suggest']);
 
