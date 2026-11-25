@@ -4,6 +4,13 @@ Base URL (local): http://127.0.0.1:8000/api
 
 Semua endpoint bertanda "Bearer token" memakai header `Authorization: Bearer <token>` dan `Accept: application/json`.
 
+## Batas keamanan
+- Login: maks 5 percobaan per menit per email + IP. Lebih dari itu: 429 `{ "message": "Too many login attempts. Try again in N seconds." }`
+- Register: maks 10 per menit per IP.
+- POST /appointments: maks 10 per menit per user.
+- Token berlaku 24 jam. Setelah itu 401 dan user harus login ulang.
+- Semua batas bisa diubah lewat `.env` (lihat docs/LOADTEST.md).
+
 ## GET /departments
 Returns the list of departments with their hospital name.
 
@@ -141,6 +148,8 @@ Body:
 - `complaint`: opsional, maks 1000 karakter
 
 Response 201: `{ "data": { ...permohonan } }`. Validasi gagal: 422.
+
+Permohonan ganda ditolak (422): user yang sama, departemen yang sama, tanggal yang sama, selama statusnya masih `pending`, `confirmed` atau `called`. Jika sebelumnya `declined`, `completed` atau `missed`, boleh mengajukan lagi.
 
 ## GET /notifications
 Butuh Bearer token. 30 notifikasi terbaru milik user.

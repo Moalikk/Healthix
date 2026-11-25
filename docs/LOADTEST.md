@@ -37,6 +37,19 @@ Authorization: Bearer <token>
 Accept: application/json
 ```
 
+## 3b. Rate limits (important)
+The API now limits login (5/min per email), register (10/min per IP) and new requests (10/min per user). A load test will hit these and get 429.
+For load testing, raise them in `backend/.env`, then restart the server:
+
+```
+LOGIN_RATE_LIMIT=1000
+REGISTER_RATE_LIMIT=1000
+BOOKING_RATE_LIMIT=1000
+```
+
+Remove these lines (or restore the defaults 5 / 10 / 10) before the demo.
+Tokens expire after 24 hours (`SANCTUM_EXPIRATION` in minutes). A user also cannot create two active requests for the same department and date (422), so vary `department_id` and `appointment_date` in POST /appointments tests.
+
 ## 4. Endpoints to test
 
 | Scenario | Method and path | Auth |
