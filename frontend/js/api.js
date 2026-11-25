@@ -1,9 +1,4 @@
-// Jika halaman dibuka lewat Laravel (/app/...), API ada di alamat yang sama.
-// Jika dibuka lewat Live Server atau file, API ada di port 8000 pada host yang sama.
-const API_BASE = window.location.pathname.startsWith("/app/")
-  ? window.location.origin + "/api"
-  : "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api";
-
+const API_BASE = "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api";
 // Nama halaman. Kalau file diganti nama, ubah di sini saja.
 const PAGES = {
   login: "login.html",

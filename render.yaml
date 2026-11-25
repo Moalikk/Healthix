@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: quickcare-demo
-    runtime: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    healthCheckPath: /api/health
-    autoDeploy: true
